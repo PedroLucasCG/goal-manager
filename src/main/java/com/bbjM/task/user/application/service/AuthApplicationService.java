@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Log4j2
 @Service
@@ -16,9 +19,37 @@ public class AuthApplicationService implements AuthService {
     @Override
     public User registerUser(CreateUserRequest createUserRequest) {
         log.info("[start] AuthApplicationService - registerUser");
+        checkIfUserExists(createUserRequest);
         User userFromRequest = new User(createUserRequest);
         User user = authRepository.createUser(userFromRequest);
         log.debug("[finish] AuthApplicationService - registerUser");
         return user;
+    }
+
+    private void checkIfUserExists(CreateUserRequest createUserRequest) {
+        log.info("[start] AuthApplicationService - checkIfUserExists");
+        getUserByEmail(createUserRequest.getEmail())
+                .ifPresent(user -> {
+                    throw new RuntimeException("O e-mail já existe no sistema.");
+                });
+        getUserByUsername(createUserRequest.getUsername())
+                .ifPresent(user -> {
+                    throw new RuntimeException("O username já existe no sistema.");
+                });
+        log.debug("[finish] AuthApplicationService - checkIfUserExists");
+    }
+
+    private Optional<User> getUserByEmail(String email) {
+        log.info("[start] AuthApplicationService - getUserByEmail");
+        Optional<User> userFromDB = authRepository.findUserByEmail(email);
+        log.debug("[finish] AuthApplicationService - getUserByEmail");
+        return userFromDB;
+    }
+
+    private Optional<User> getUserByUsername(String username) {
+        log.info("[start] AuthApplicationService - getUserByUsername");
+        Optional<User> userFromDB = authRepository.findUserByUsername(username);
+        log.debug("[finish] AuthApplicationService - getUserByUsername");
+        return userFromDB;
     }
 }
