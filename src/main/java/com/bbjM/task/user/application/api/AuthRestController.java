@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 @RequiredArgsConstructor
 public class AuthRestController implements AuthAPI {
-    private AuthService authService;
+    private final AuthService authService;
 
     @Override
     public void createUser(CreateUserRequest createUserRequest) {
