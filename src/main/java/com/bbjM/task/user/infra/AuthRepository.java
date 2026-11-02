@@ -1,14 +1,14 @@
 package com.bbjM.task.user.infra;
 
-import com.bbjM.task.user.domain.User;
+import com.bbjM.task.user.domain.Credential;
 
 import java.util.Optional;
 
 public interface AuthRepository {
 
-    User createUser(User userFromRequest);
+    Credential createUser(Credential credentialFromRequest);
 
-    Optional<User> findUserByEmail(String email);
+    Optional<Credential> findUserByEmail(String email);
 
-    Optional<User> findUserByUsername(String username);
+    Optional<Credential> findUserByUsername(String username);
 }

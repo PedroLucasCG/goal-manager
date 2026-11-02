@@ -1,3 +1,26 @@
 spring:
   application:
-    name: task
+    name: task-api
+
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/task}
+    username: ${DATASOURCE_USER:postgres}
+    password: ${DATASOURCE_PASS:postgres}
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      poolName: SpringBootJPAHikariCP
+      minimumIdle: 15
+      maximumPoolSize: 50
+      connectionTimeout: 30000
+      idleTimeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /public/swagger
+  api-docs:
+    enabled: true

@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class User {
+public class Credential {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -23,7 +23,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    public User(CreateUserRequest createUserRequest) {
+    public Credential(CreateUserRequest createUserRequest) {
         username = createUserRequest.getUsername();
         password = createUserRequest.getPassword();
         email = createUserRequest.getEmail();

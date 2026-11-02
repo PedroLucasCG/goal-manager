@@ -1,6 +1,6 @@
 package com.bbjM.task.user.infra;
 
-import com.bbjM.task.user.domain.User;
+import com.bbjM.task.user.domain.Credential;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
@@ -14,25 +14,25 @@ public class AuthInfraRepository implements AuthRepository {
     private final AuthPostgresRepository authPostgresRepository;
 
     @Override
-    public User createUser(User userFromRequest) {
+    public Credential createUser(Credential credentialFromRequest) {
         log.info("[start] AuthInfraRepository - createUser");
-        User user = authPostgresRepository.save(userFromRequest);
+        Credential credential = authPostgresRepository.save(credentialFromRequest);
         log.debug("[finish] AuthInfraRepository - createUser");
-        return user;
+        return credential;
     }
 
     @Override
-    public Optional<User> findUserByEmail(String email) {
+    public Optional<Credential> findUserByEmail(String email) {
         log.info("[start] AuthInfraRepository - findUserByEmail");
-        Optional<User> user = authPostgresRepository.findUserByEmail(email);
+        Optional<Credential> user = authPostgresRepository.findUserByEmail(email);
         log.debug("[finish] AuthInfraRepository - findUserByEmail");
         return user;
     }
 
     @Override
-    public Optional<User> findUserByUsername(String username) {
+    public Optional<Credential> findUserByUsername(String username) {
         log.info("[start] AuthInfraRepository - findUserByUsername");
-        Optional<User> user = authPostgresRepository.findUserByUsername(username);
+        Optional<Credential> user = authPostgresRepository.findUserByUsername(username);
         log.debug("[finish] AuthInfraRepository - findUserByUsername");
         return user;
     }

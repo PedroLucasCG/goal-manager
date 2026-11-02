@@ -3,13 +3,12 @@ package com.bbjM.task.user.application.service;
 import com.bbjM.task.handler.APIException;
 import com.bbjM.task.handler.ErrorCode;
 import com.bbjM.task.user.application.api.requests.CreateUserRequest;
-import com.bbjM.task.user.domain.User;
+import com.bbjM.task.user.domain.Credential;
 import com.bbjM.task.user.infra.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -19,13 +18,13 @@ public class AuthApplicationService implements AuthService {
     private final AuthRepository authRepository;
 
     @Override
-    public User registerUser(CreateUserRequest createUserRequest) {
+    public Credential registerUser(CreateUserRequest createUserRequest) {
         log.info("[start] AuthApplicationService - registerUser");
         checkIfUserExists(createUserRequest);
-        User userFromRequest = new User(createUserRequest);
-        User user = authRepository.createUser(userFromRequest);
+        Credential credentialFromRequest = new Credential(createUserRequest);
+        Credential credential = authRepository.createUser(credentialFromRequest);
         log.debug("[finish] AuthApplicationService - registerUser");
-        return user;
+        return credential;
     }
 
     private void checkIfUserExists(CreateUserRequest createUserRequest) {
@@ -41,16 +40,16 @@ public class AuthApplicationService implements AuthService {
         log.debug("[finish] AuthApplicationService - checkIfUserExists");
     }
 
-    private Optional<User> getUserByEmail(String email) {
+    private Optional<Credential> getUserByEmail(String email) {
         log.info("[start] AuthApplicationService - getUserByEmail");
-        Optional<User> userFromDB = authRepository.findUserByEmail(email);
+        Optional<Credential> userFromDB = authRepository.findUserByEmail(email);
         log.debug("[finish] AuthApplicationService - getUserByEmail");
         return userFromDB;
     }
 
-    private Optional<User> getUserByUsername(String username) {
+    private Optional<Credential> getUserByUsername(String username) {
         log.info("[start] AuthApplicationService - getUserByUsername");
-        Optional<User> userFromDB = authRepository.findUserByUsername(username);
+        Optional<Credential> userFromDB = authRepository.findUserByUsername(username);
         log.debug("[finish] AuthApplicationService - getUserByUsername");
         return userFromDB;
     }
