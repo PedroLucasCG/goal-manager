@@ -1,5 +1,7 @@
 package com.bbjM.task.user.application.service;
 
+import com.bbjM.task.handler.APIException;
+import com.bbjM.task.handler.ErrorCode;
 import com.bbjM.task.user.application.api.requests.CreateUserRequest;
 import com.bbjM.task.user.domain.User;
 import com.bbjM.task.user.infra.AuthRepository;
@@ -30,11 +32,11 @@ public class AuthApplicationService implements AuthService {
         log.info("[start] AuthApplicationService - checkIfUserExists");
         getUserByEmail(createUserRequest.getEmail())
                 .ifPresent(user -> {
-                    throw new RuntimeException("O e-mail já existe no sistema.");
+                    throw new APIException(ErrorCode.EMAIL_ALREADY_USED, createUserRequest.getEmail());
                 });
         getUserByUsername(createUserRequest.getUsername())
                 .ifPresent(user -> {
-                    throw new RuntimeException("O username já existe no sistema.");
+                    throw new APIException(ErrorCode.USERNAME_ALREADY_USED, createUserRequest.getUsername());
                 });
         log.debug("[finish] AuthApplicationService - checkIfUserExists");
     }
