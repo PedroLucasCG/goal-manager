@@ -22,10 +22,15 @@ public class Credential {
     private String password;
     @Column(nullable = false, unique = true)
     private String email;
+    @Enumerated(EnumType.STRING) private Role role;
+    @Column(nullable = false)
+    private Boolean deleted;
 
     public Credential(CreateUserRequest createUserRequest) {
         username = createUserRequest.getUsername();
         password = createUserRequest.getPassword();
         email = createUserRequest.getEmail().toLowerCase();
+        deleted = false;
+        role = Role.USER;
     }
 }
