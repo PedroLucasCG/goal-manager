@@ -1,5 +1,6 @@
 package com.bbjM.task.user.application.service;
 
+import com.bbjM.task.config.spring_security.TokenService;
 import com.bbjM.task.handler.APIException;
 import com.bbjM.task.handler.ErrorCode;
 import com.bbjM.task.user.application.api.reponses.LoginResponse;
@@ -9,6 +10,7 @@ import com.bbjM.task.user.domain.Credential;
 import com.bbjM.task.user.infra.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import java.util.Optional;
 public class AuthApplicationService implements AuthService {
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
     @Override
     public Credential registerUser(CreateUserRequest createUserRequest) {

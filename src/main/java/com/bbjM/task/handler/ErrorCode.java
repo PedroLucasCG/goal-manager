@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     EMAIL_ALREADY_USED(HttpStatus.CONFLICT, "email.already.used"),
     CREDENTIAL_NOT_FOUND(HttpStatus.NOT_FOUND, "credential.not.found"),
+    UNAUTHENTICATED_ON_LOGIN(HttpStatus.UNAUTHORIZED, "unauthorized.on.login"),
+    ACCESS_DENIED(HttpStatus.FORBIDDEN, "access.denied"),
     USERNAME_ALREADY_USED(HttpStatus.CONFLICT, "username.already.used");
 
     private final HttpStatus status;
