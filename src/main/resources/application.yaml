@@ -20,7 +20,7 @@ spring:
 
 security:
   jwt:
-    secret: ${JWT_SECRET}
+    secret: ${JWT_SECRET:GuiXPBuCpdZBDrBIw9YRMbvOzIXlP0Qz8lKTJ4OY29C}
     issuer: plcg
     expiration: 30m
 

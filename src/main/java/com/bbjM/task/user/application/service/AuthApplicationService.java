@@ -11,6 +11,8 @@ import com.bbjM.task.user.infra.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,9 +42,16 @@ public class AuthApplicationService implements AuthService {
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
         log.info("[start] AuthApplicationService - login");
-
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+        Credential credential = getUserByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new APIException(ErrorCode.CREDENTIAL_NOT_FOUND));
+        LoginResponse loginResponse = LoginResponse.builder()
+                .token(tokenService.generateToken(authentication))
+                .username(credential.getUsername())
+                .build();
         log.debug("[finish] AuthApplicationService - login");
-        return null;
+        return loginResponse;
     }
 
     private void checkIfUserExists(CreateUserRequest createUserRequest) {
