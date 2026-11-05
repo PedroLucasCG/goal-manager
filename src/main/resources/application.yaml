@@ -18,6 +18,12 @@ spring:
     hibernate:
       ddl-auto: update
 
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    issuer: plcg
+    expiration: 30m
+
 server:
   servlet:
     context-path: /task/api
