@@ -4,6 +4,7 @@ import com.bbjM.task.user.application.api.requests.CreateUserRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
 
@@ -29,15 +30,12 @@ public class Credential {
 
     public Credential(CreateUserRequest createUserRequest) {
         username = createUserRequest.getUsername();
-        password = createUserRequest.getPassword();
         email = createUserRequest.getEmail().toLowerCase();
         deleted = false;
         role = Role.USER;
     }
 
-    public void hashPassword(String hashedPassword) {
-        if (BCrypt.checkpw(hashedPassword, password))
-            throw new RuntimeException("O hash da senha está igual à senha em texto simples!");
-        password = hashedPassword;
+    public void makePasswordFromRequest(PasswordEncoder passwordEncoder, CreateUserRequest createUserRequest) {
+        this.password = passwordEncoder.encode(createUserRequest.getPassword());
     }
 }

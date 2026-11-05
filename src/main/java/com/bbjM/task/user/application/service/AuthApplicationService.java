@@ -27,7 +27,7 @@ public class AuthApplicationService implements AuthService {
         log.info("[start] AuthApplicationService - registerUser");
         checkIfUserExists(createUserRequest);
         Credential credentialFromRequest = new Credential(createUserRequest);
-        credentialFromRequest.hashPassword(passwordEncoder.encode(createUserRequest.getPassword()));
+        credentialFromRequest.makePasswordFromRequest(passwordEncoder, createUserRequest);
         Credential credential = authRepository.createUser(credentialFromRequest);
         log.debug("[finish] AuthApplicationService - registerUser");
         return credential;
