@@ -2,11 +2,15 @@ package com.bbjM.task.user.application.service;
 
 import com.bbjM.task.handler.APIException;
 import com.bbjM.task.handler.ErrorCode;
+import com.bbjM.task.user.application.api.reponses.LoginResponse;
 import com.bbjM.task.user.application.api.requests.CreateUserRequest;
+import com.bbjM.task.user.application.api.requests.LoginRequest;
 import com.bbjM.task.user.domain.Credential;
 import com.bbjM.task.user.infra.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,15 +20,25 @@ import java.util.Optional;
 @Service
 public class AuthApplicationService implements AuthService {
     private final AuthRepository authRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Credential registerUser(CreateUserRequest createUserRequest) {
         log.info("[start] AuthApplicationService - registerUser");
         checkIfUserExists(createUserRequest);
         Credential credentialFromRequest = new Credential(createUserRequest);
+        credentialFromRequest.hashPassword(passwordEncoder.encode(createUserRequest.getPassword()));
         Credential credential = authRepository.createUser(credentialFromRequest);
         log.debug("[finish] AuthApplicationService - registerUser");
         return credential;
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) {
+        log.info("[start] AuthApplicationService - login");
+
+        log.debug("[finish] AuthApplicationService - login");
+        return null;
     }
 
     private void checkIfUserExists(CreateUserRequest createUserRequest) {

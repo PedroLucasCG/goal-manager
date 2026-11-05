@@ -3,6 +3,7 @@ package com.bbjM.task.user.domain;
 import com.bbjM.task.user.application.api.requests.CreateUserRequest;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.util.UUID;
 
@@ -32,5 +33,11 @@ public class Credential {
         email = createUserRequest.getEmail().toLowerCase();
         deleted = false;
         role = Role.USER;
+    }
+
+    public void hashPassword(String hashedPassword) {
+        if (BCrypt.checkpw(hashedPassword, password))
+            throw new RuntimeException("O hash da senha está igual à senha em texto simples!");
+        password = hashedPassword;
     }
 }
