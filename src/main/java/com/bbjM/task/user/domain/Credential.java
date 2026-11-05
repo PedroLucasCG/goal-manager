@@ -26,6 +26,6 @@ public class Credential {
     public Credential(CreateUserRequest createUserRequest) {
         username = createUserRequest.getUsername();
         password = createUserRequest.getPassword();
-        email = createUserRequest.getEmail();
+        email = createUserRequest.getEmail().toLowerCase();
     }
 }
