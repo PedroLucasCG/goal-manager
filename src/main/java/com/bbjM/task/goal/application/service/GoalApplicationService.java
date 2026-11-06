@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Log4j2
 @RequiredArgsConstructor
 @Service
@@ -25,10 +28,19 @@ public class GoalApplicationService implements GoalService {
         log.info("[start] GoalApplicationService - makeGoal");
         Credential credential = authRepository.findUserByEmail(email)
                 .orElseThrow(() -> new APIException(ErrorCode.CREDENTIAL_NOT_FOUND));
-        Goal goalFromRequest = new Goal(createGoalRequest, credential);
+        Goal parentGoal = getGoalById(createGoalRequest.getParentGoal())
+                .orElseThrow(() -> new APIException(ErrorCode.PARENT_GOAL_NOT_FOUND));;
+        Goal goalFromRequest = new Goal(createGoalRequest, credential, parentGoal);
         Goal goal = goalRepository.saveGoal(goalFromRequest);
         GoalResponse goalResponse = new GoalResponse(goal);
         log.debug("[finish] GoalApplicationService - makeGoal");
         return goalResponse;
+    }
+
+    private Optional<Goal> getGoalById(UUID id) {
+        log.info("[start] GoalApplicationService - getGoalById");
+        Optional<Goal> goalFromDB = goalRepository.findGoalById(id);
+        log.debug("[finish] GoalApplicationService - getGoalById");
+        return goalFromDB;
     }
 }

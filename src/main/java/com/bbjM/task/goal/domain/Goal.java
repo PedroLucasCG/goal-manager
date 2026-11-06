@@ -34,11 +34,11 @@ public class Goal {
     @OneToMany(mappedBy = "parentGoal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Goal> children;
 
-    public Goal(CreateGoalRequest createGoalRequest, Credential owner) {
+    public Goal(CreateGoalRequest createGoalRequest, Credential owner, Goal parentGoal) {
         this.title = createGoalRequest.getTitle();
         this.description = createGoalRequest.getDescription();
         this.color = createGoalRequest.getColor();
-        this.parentGoal = createGoalRequest.getParentGoal();
+        this.parentGoal = parentGoal;
         this.owner = owner;
     }
 }

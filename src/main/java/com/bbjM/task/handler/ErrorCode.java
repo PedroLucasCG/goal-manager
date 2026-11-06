@@ -11,7 +11,8 @@ public enum ErrorCode {
     CREDENTIAL_NOT_FOUND(HttpStatus.NOT_FOUND, "credential.not.found"),
     UNAUTHENTICATED_ON_LOGIN(HttpStatus.UNAUTHORIZED, "unauthorized.on.login"),
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "access.denied"),
-    USERNAME_ALREADY_USED(HttpStatus.CONFLICT, "username.already.used");
+    USERNAME_ALREADY_USED(HttpStatus.CONFLICT, "username.already.used"),
+    PARENT_GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "parent.goal.not.found" );
 
     private final HttpStatus status;
     private final String code;
