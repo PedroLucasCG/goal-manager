@@ -28,8 +28,11 @@ public class GoalApplicationService implements GoalService {
         log.info("[start] GoalApplicationService - makeGoal");
         Credential credential = authRepository.findUserByEmail(email)
                 .orElseThrow(() -> new APIException(ErrorCode.CREDENTIAL_NOT_FOUND));
-        Goal parentGoal = getGoalById(createGoalRequest.getParentGoal())
-                .orElseThrow(() -> new APIException(ErrorCode.PARENT_GOAL_NOT_FOUND));;
+        Goal parentGoal = null;
+        if (createGoalRequest.getParentGoal() != null) {
+            parentGoal = getGoalById(createGoalRequest.getParentGoal())
+                    .orElseThrow(() -> new APIException(ErrorCode.PARENT_GOAL_NOT_FOUND));
+        }
         Goal goalFromRequest = new Goal(createGoalRequest, credential, parentGoal);
         Goal goal = goalRepository.saveGoal(goalFromRequest);
         GoalResponse goalResponse = new GoalResponse(goal);
