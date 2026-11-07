@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/goal")
 public interface GoalAPI {
-    @PostMapping("/:email")
+    @PostMapping("/{email}")
     GoalResponse makeGoal(@Valid @RequestBody CreateGoalRequest createGoalRequest, @PathVariable String email);
 }
