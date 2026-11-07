@@ -22,6 +22,9 @@ public class Goal {
     @Column(nullable = false)
     private String description;
     private String color;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
@@ -40,5 +43,6 @@ public class Goal {
         this.color = createGoalRequest.getColor();
         this.parentGoal = parentGoal;
         this.owner = owner;
+        this.status = Status.IN_PROGRESS;
     }
 }
