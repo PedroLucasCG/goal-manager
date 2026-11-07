@@ -1,6 +1,7 @@
 package com.bbjM.task.goal.infra;
 
 import com.bbjM.task.goal.domain.Goal;
+import com.bbjM.task.user.domain.Credential;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
@@ -23,9 +24,9 @@ public class GoalInfraRepository implements GoalRepository {
     }
 
     @Override
-    public Optional<Goal> findGoalById(UUID id) {
+    public Optional<Goal> findGoalById(UUID id, Credential owner) {
         log.info("[start] GoalInfraRepository - findGoalById");
-        Optional<Goal> goal = goalPostgresRepository.findGoalById(id);
+        Optional<Goal> goal = goalPostgresRepository.findGoalByIdAndOwner(id, owner);
         log.debug("[finish] GoalInfraRepository - findGoalById");
         return goal;
     }
