@@ -14,6 +14,6 @@ public interface GoalAPI {
     @PostMapping("/{email}")
     GoalResponse makeGoal(@Valid @RequestBody CreateGoalRequest createGoalRequest, @PathVariable String email);
 
-    @GetMapping("/{email}")
+    @GetMapping("/tree/{email}")
     List<GoalTreeResponse> showGoalTree(@Valid @PathVariable String email);
 }

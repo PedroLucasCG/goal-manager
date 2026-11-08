@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -22,6 +23,9 @@ public class GoalResponse {
         this.title = goal.getTitle();
         this.description = goal.getDescription();
         this.color = goal.getColor();
-        this.parentGoal = goal.getParentGoal().getId();
+        this.parentGoal = null;
+        if (Objects.nonNull(goal.getParentGoal())) {
+            this.parentGoal = goal.getParentGoal().getId();
+        }
     }
 }

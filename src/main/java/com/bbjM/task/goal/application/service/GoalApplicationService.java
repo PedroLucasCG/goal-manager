@@ -14,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,8 +47,9 @@ public class GoalApplicationService implements GoalService {
     public List<GoalTreeResponse> buildGoalTree(String email) {
         log.info("[start] GoalApplicationService - buildGoalTree");
         List<Goal> rootGoals = goalRepository.findRootGoalsByUserEmail(email);
+        List<GoalTreeResponse> goalTrees = GoalTreeResponse.convertToTreeResponse(rootGoals);
         log.debug("[finish] GoalApplicationService - buildGoalTree");
-        return null;
+        return goalTrees;
     }
 
     private Optional<Goal> getGoalById(UUID goalId, Credential owner) {

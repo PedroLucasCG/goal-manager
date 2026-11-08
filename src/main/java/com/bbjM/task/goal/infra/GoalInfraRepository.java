@@ -35,7 +35,7 @@ public class GoalInfraRepository implements GoalRepository {
     @Override
     public List<Goal> findRootGoalsByUserEmail(String email) {
         log.info("[start] GoalInfraRepository - findRootGoalsByUserEmail");
-        List<Goal> goals = goalPostgresRepository.findByUserEmail(email);
+        List<Goal> goals = goalPostgresRepository.findGoalHierarchyByEmail(email);
         log.debug("[finish] GoalInfraRepository - findRootGoalsByUserEmail");
         return goals;
     }
