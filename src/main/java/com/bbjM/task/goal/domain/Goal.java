@@ -1,6 +1,7 @@
 package com.bbjM.task.goal.domain;
 
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
+import com.bbjM.task.shared.Auditable;
 import com.bbjM.task.user.domain.Credential;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class Goal {
+public class Goal extends Auditable {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     private UUID id;

@@ -33,6 +33,7 @@ public interface GoalPostgresRepository extends JpaRepository<Goal, UUID> {
     SELECT g.*
     FROM goal g
     JOIN goal_tree tree ON tree.id = g.id
+    ORDER BY g.updated_at ASC, g.id ASC
     """, nativeQuery = true)
     List<Goal> findGoalHierarchyByEmail(@Param("email") String email);
 }

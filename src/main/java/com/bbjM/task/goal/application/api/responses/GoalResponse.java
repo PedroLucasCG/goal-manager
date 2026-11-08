@@ -16,16 +16,16 @@ public class GoalResponse {
     private String title;
     private String description;
     private String color;
-    private UUID parentGoal;
+    private UUID parentGoalId;
 
     public GoalResponse(Goal goal) {
         this.id = goal.getId();
         this.title = goal.getTitle();
         this.description = goal.getDescription();
         this.color = goal.getColor();
-        this.parentGoal = null;
+        this.parentGoalId = null;
         if (Objects.nonNull(goal.getParentGoal())) {
-            this.parentGoal = goal.getParentGoal().getId();
+            this.parentGoalId = goal.getParentGoal().getId();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.bbjM.task.user.domain;
 
+import com.bbjM.task.shared.Auditable;
 import com.bbjM.task.user.application.api.requests.CreateUserRequest;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class Credential {
+public class Credential extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
