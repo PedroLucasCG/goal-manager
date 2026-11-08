@@ -39,4 +39,5 @@ public class Credential extends Auditable {
     public void makePasswordFromRequest(PasswordEncoder passwordEncoder, CreateUserRequest createUserRequest) {
         this.password = passwordEncoder.encode(createUserRequest.getPassword());
     }
+
 }

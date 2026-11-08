@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -26,6 +27,8 @@ public class Goal extends Auditable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
+    @Column(nullable = false)
+    private Long level;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
@@ -45,5 +48,7 @@ public class Goal extends Auditable {
         this.parentGoal = parentGoal;
         this.owner = owner;
         this.status = Status.IN_PROGRESS;
+        this.level = 0L;
+        if(parentGoal != null) this.level = parentGoal.getLevel() + 1L;
     }
 }
