@@ -2,6 +2,7 @@ package com.bbjM.task.goal.application.api;
 
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
+import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,4 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public interface GoalAPI {
     @PostMapping("/{email}")
     GoalResponse makeGoal(@Valid @RequestBody CreateGoalRequest createGoalRequest, @PathVariable String email);
+
+    @GetMapping("/{email}")
+    GoalTreeResponse showGoalTree(@Valid @PathVariable String email);
 }

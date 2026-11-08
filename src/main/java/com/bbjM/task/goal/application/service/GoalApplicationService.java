@@ -1,16 +1,17 @@
 package com.bbjM.task.goal.application.service;
 
+import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
 import com.bbjM.task.goal.domain.Goal;
 import com.bbjM.task.goal.infra.GoalRepository;
 import com.bbjM.task.handler.APIException;
 import com.bbjM.task.handler.ErrorCode;
-import com.bbjM.task.user.application.service.AuthService;
 import com.bbjM.task.user.domain.Credential;
 import com.bbjM.task.user.infra.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -38,6 +39,14 @@ public class GoalApplicationService implements GoalService {
         GoalResponse goalResponse = new GoalResponse(goal);
         log.debug("[finish] GoalApplicationService - makeGoal");
         return goalResponse;
+    }
+
+    @Override
+    public GoalTreeResponse buildGoalTree(String email) {
+        log.info("[start] GoalApplicationService - buildGoalTree");
+
+        log.debug("[finish] GoalApplicationService - buildGoalTree");
+        return null;
     }
 
     private Optional<Goal> getGoalById(UUID goalId, Credential owner) {

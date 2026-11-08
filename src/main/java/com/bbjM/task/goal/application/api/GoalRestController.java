@@ -2,9 +2,11 @@ package com.bbjM.task.goal.application.api;
 
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
+import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
 import com.bbjM.task.goal.application.service.GoalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 
 @Log4j2
@@ -19,5 +21,14 @@ public class GoalRestController implements GoalAPI {
         GoalResponse goalResponse = goalService.makeGoal(createGoalRequest, email);
         log.debug("[finish] GoalRestController - makeGoal");
         return goalResponse;
+    }
+
+    @Override
+    public GoalTreeResponse showGoalTree(String email) {
+        log.info("[start] GoalRestController - showGoalTree");
+        GoalTreeResponse goalResponses
+                = goalService.buildGoalTree(email);
+        log.debug("[finish] GoalRestController - showGoalTree");
+        return goalResponses;
     }
 }
