@@ -1,5 +1,6 @@
 package com.bbjM.task.goal.application.service;
 
+import com.bbjM.task.goal.application.api.requests.GoalFilterRequest;
 import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
@@ -44,10 +45,11 @@ public class GoalApplicationService implements GoalService {
     }
 
     @Override
-    public List<GoalTreeResponse> buildGoalTree(String email) {
+    public List<GoalTreeResponse> buildGoalTree(String email, GoalFilterRequest goalFilterRequest) {
         log.info("[start] GoalApplicationService - buildGoalTree");
-        List<Goal> rootGoals = goalRepository.findRootGoalsByUserEmail(email);
-        List<GoalTreeResponse> goalTrees = GoalTreeResponse.convertToTreeResponse(rootGoals);
+        List<Goal> rootGoals = goalRepository.findRootGoalsByUserEmail(email, goalFilterRequest);
+        List<GoalTreeResponse> goalTrees
+                = GoalTreeResponse.convertToTreeResponse(rootGoals, goalFilterRequest.getStartLevel());
         log.debug("[finish] GoalApplicationService - buildGoalTree");
         return goalTrees;
     }

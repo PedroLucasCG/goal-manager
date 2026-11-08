@@ -3,11 +3,7 @@ package com.bbjM.task.goal.application.api.responses;
 import com.bbjM.task.goal.domain.Goal;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 public class GoalTreeResponse {
@@ -24,14 +20,14 @@ public class GoalTreeResponse {
         }
     }
 
-    public static List<GoalTreeResponse> convertToTreeResponse(List<Goal> goals) {
+    public static List<GoalTreeResponse> convertToTreeResponse(List<Goal> goals, Long initLevel) {
         List<Goal> roots = new ArrayList<>();
         Map<UUID, List<Goal>> goalsByParentId = new HashMap<>();
 
         for (Goal goal : goals) {
             Goal parent = goal.getParentGoal();
 
-            if (parent == null) {
+            if (Objects.equals(goal.getLevel(), initLevel)) {
                 roots.add(goal);
             } else {
                 goalsByParentId

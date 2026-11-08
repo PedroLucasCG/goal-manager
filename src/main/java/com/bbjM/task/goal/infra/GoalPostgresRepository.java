@@ -1,5 +1,6 @@
 package com.bbjM.task.goal.infra;
 
+import com.bbjM.task.goal.application.api.requests.GoalFilterRequest;
 import com.bbjM.task.goal.domain.Goal;
 import com.bbjM.task.user.domain.Credential;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,24 +17,39 @@ public interface GoalPostgresRepository extends JpaRepository<Goal, UUID> {
     Optional<Goal> findGoalByIdAndOwner(UUID id, Credential owner);
 
     @Query(value = """
-    WITH RECURSIVE goal_tree AS (
-        SELECT g.id, g.owner
+
+            WITH RECURSIVE start_page AS (
+        SELECT g.id, g.owner, g.level
         FROM goal g
         JOIN credential c ON c.id = g.owner
         WHERE c.email = :email
-          AND g.parent_goal IS NULL
-
+          AND g.level = :#{#filter.startLevel}
+        ORDER BY g.updated_at ASC, g.id ASC
+        LIMIT :#{#filter.width} OFFSET :#{#filter.startOffset}
+    ),
+    goal_tree AS (
+        SELECT s.id, s.owner, s.level
+        FROM start_page s
+    
         UNION ALL
-
-        SELECT child.id, child.owner
-        FROM goal child
-        JOIN goal_tree parent ON child.parent_goal = parent.id
-                             AND child.owner = parent.owner
+    
+        SELECT child.id, child.owner, child.level
+        FROM goal_tree parent
+        CROSS JOIN LATERAL (
+            SELECT g.id, g.owner, g.level
+            FROM goal g
+            WHERE g.parent_goal = parent.id
+              AND g.owner = parent.owner
+              AND parent.level < :#{#filter.startLevel + #filter.depth - 1}
+            ORDER BY g.updated_at ASC, g.id ASC
+            LIMIT :#{#filter.width}
+        ) child
     )
     SELECT g.*
     FROM goal g
-    JOIN goal_tree tree ON tree.id = g.id
+    JOIN goal_tree t ON t.id = g.id
     ORDER BY g.updated_at ASC, g.id ASC
     """, nativeQuery = true)
-    List<Goal> findGoalHierarchyByEmail(@Param("email") String email);
+    List<Goal> findGoalHierarchyByEmail
+            (@Param("email") String email, @Param("filter") GoalFilterRequest goalFilterRequest);
 }

@@ -1,6 +1,7 @@
 package com.bbjM.task.goal.application.api;
 
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
+import com.bbjM.task.goal.application.api.requests.GoalFilterRequest;
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
 import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
 import com.bbjM.task.goal.application.service.GoalService;
@@ -26,10 +27,10 @@ public class GoalRestController implements GoalAPI {
     }
 
     @Override
-    public List<GoalTreeResponse> showGoalTree(String email) {
+    public List<GoalTreeResponse> showGoalTree(String email, GoalFilterRequest goalFilterRequest) {
         log.info("[start] GoalRestController - showGoalTree");
         List<GoalTreeResponse> goalResponses
-                = goalService.buildGoalTree(email);
+                = goalService.buildGoalTree(email, goalFilterRequest);
         log.debug("[finish] GoalRestController - showGoalTree");
         return goalResponses;
     }

@@ -1,5 +1,6 @@
 package com.bbjM.task.goal.infra;
 
+import com.bbjM.task.goal.application.api.requests.GoalFilterRequest;
 import com.bbjM.task.goal.domain.Goal;
 import com.bbjM.task.user.domain.Credential;
 import lombok.RequiredArgsConstructor;
@@ -33,9 +34,9 @@ public class GoalInfraRepository implements GoalRepository {
     }
 
     @Override
-    public List<Goal> findRootGoalsByUserEmail(String email) {
+    public List<Goal> findRootGoalsByUserEmail(String email, GoalFilterRequest goalFilterRequest) {
         log.info("[start] GoalInfraRepository - findRootGoalsByUserEmail");
-        List<Goal> goals = goalPostgresRepository.findGoalHierarchyByEmail(email);
+        List<Goal> goals = goalPostgresRepository.findGoalHierarchyByEmail(email, goalFilterRequest);
         log.debug("[finish] GoalInfraRepository - findRootGoalsByUserEmail");
         return goals;
     }
