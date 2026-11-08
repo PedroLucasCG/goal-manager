@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,5 +30,13 @@ public class GoalInfraRepository implements GoalRepository {
         Optional<Goal> goal = goalPostgresRepository.findGoalByIdAndOwner(id, owner);
         log.debug("[finish] GoalInfraRepository - findGoalById");
         return goal;
+    }
+
+    @Override
+    public List<Goal> findRootGoalsByUserEmail(String email) {
+        log.info("[start] GoalInfraRepository - findRootGoalsByUserEmail");
+        List<Goal> goals = goalPostgresRepository.findByUserEmail(email);
+        log.debug("[finish] GoalInfraRepository - findRootGoalsByUserEmail");
+        return goals;
     }
 }

@@ -9,6 +9,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Log4j2
 @RestController
 @RequiredArgsConstructor
@@ -24,9 +26,9 @@ public class GoalRestController implements GoalAPI {
     }
 
     @Override
-    public GoalTreeResponse showGoalTree(String email) {
+    public List<GoalTreeResponse> showGoalTree(String email) {
         log.info("[start] GoalRestController - showGoalTree");
-        GoalTreeResponse goalResponses
+        List<GoalTreeResponse> goalResponses
                 = goalService.buildGoalTree(email);
         log.debug("[finish] GoalRestController - showGoalTree");
         return goalResponses;

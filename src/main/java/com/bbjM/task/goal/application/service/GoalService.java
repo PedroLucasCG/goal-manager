@@ -5,8 +5,10 @@ import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface GoalService {
     GoalResponse makeGoal(CreateGoalRequest createGoalRequest, String idCredential);
 
-    GoalTreeResponse buildGoalTree(String email);
+    List<GoalTreeResponse> buildGoalTree(String email);
 }
