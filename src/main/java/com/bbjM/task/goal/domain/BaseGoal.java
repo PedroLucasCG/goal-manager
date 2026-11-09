@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +14,8 @@ import java.util.UUID;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class Goal extends Auditable {
+@Table(name = "Goal")
+public class BaseGoal extends Auditable {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     private UUID id;
@@ -36,12 +36,12 @@ public class Goal extends Auditable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_goal")
-    private Goal parentGoal;
+    private BaseGoal parentGoal;
 
     @OneToMany(mappedBy = "parentGoal", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Goal> children;
+    private List<BaseGoal> children;
 
-    public Goal(CreateGoalRequest createGoalRequest, Credential owner, Goal parentGoal) {
+    public BaseGoal(CreateGoalRequest createGoalRequest, Credential owner, BaseGoal parentGoal) {
         this.title = createGoalRequest.getTitle();
         this.description = createGoalRequest.getDescription();
         this.color = createGoalRequest.getColor();

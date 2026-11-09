@@ -1,7 +1,7 @@
 package com.bbjM.task.goal.infra;
 
 import com.bbjM.task.goal.application.api.requests.GoalFilterRequest;
-import com.bbjM.task.goal.domain.Goal;
+import com.bbjM.task.goal.domain.BaseGoal;
 import com.bbjM.task.user.domain.Credential;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,8 +13,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface GoalPostgresRepository extends JpaRepository<Goal, UUID> {
-    Optional<Goal> findGoalByIdAndOwner(UUID id, Credential owner);
+public interface GoalPostgresRepository extends JpaRepository<BaseGoal, UUID> {
+    Optional<BaseGoal> findGoalByIdAndOwner(UUID id, Credential owner);
 
     @Query(value = """
 
@@ -50,6 +50,6 @@ public interface GoalPostgresRepository extends JpaRepository<Goal, UUID> {
     JOIN goal_tree t ON t.id = g.id
     ORDER BY g.updated_at ASC, g.id ASC
     """, nativeQuery = true)
-    List<Goal> findGoalHierarchyByEmail
+    List<BaseGoal> findGoalHierarchyByEmail
             (@Param("email") String email, @Param("filter") GoalFilterRequest goalFilterRequest);
 }

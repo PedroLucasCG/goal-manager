@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.application.api.responses;
 
-import com.bbjM.task.goal.domain.Goal;
+import com.bbjM.task.goal.domain.BaseGoal;
 import lombok.Getter;
 
 import java.util.*;
@@ -11,21 +11,21 @@ public class GoalTreeResponse {
     private final GoalResponse goal;
     private final List<GoalTreeResponse> children;
 
-    private GoalTreeResponse(Goal goal, Map<UUID, List<Goal>> goalsByParentId) {
+    private GoalTreeResponse(BaseGoal goal, Map<UUID, List<BaseGoal>> goalsByParentId) {
         this.goal = new GoalResponse(goal);
         this.children = new ArrayList<>();
 
-        for (Goal child : goalsByParentId.getOrDefault(goal.getId(), List.of())) {
+        for (BaseGoal child : goalsByParentId.getOrDefault(goal.getId(), List.of())) {
             this.children.add(new GoalTreeResponse(child, goalsByParentId));
         }
     }
 
-    public static List<GoalTreeResponse> convertToTreeResponse(List<Goal> goals, Long initLevel) {
-        List<Goal> roots = new ArrayList<>();
-        Map<UUID, List<Goal>> goalsByParentId = new HashMap<>();
+    public static List<GoalTreeResponse> convertToTreeResponse(List<BaseGoal> goals, Long initLevel) {
+        List<BaseGoal> roots = new ArrayList<>();
+        Map<UUID, List<BaseGoal>> goalsByParentId = new HashMap<>();
 
-        for (Goal goal : goals) {
-            Goal parent = goal.getParentGoal();
+        for (BaseGoal goal : goals) {
+            BaseGoal parent = goal.getParentGoal();
 
             if (Objects.equals(goal.getLevel(), initLevel)) {
                 roots.add(goal);
@@ -37,7 +37,7 @@ public class GoalTreeResponse {
         }
 
         List<GoalTreeResponse> trees = new ArrayList<>();
-        for (Goal root : roots) {
+        for (BaseGoal root : roots) {
             trees.add(new GoalTreeResponse(root, goalsByParentId));
         }
         return trees;

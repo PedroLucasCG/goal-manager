@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.application.api.responses;
 
-import com.bbjM.task.goal.domain.Goal;
+import com.bbjM.task.goal.domain.BaseGoal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ public class GoalResponse {
     private String color;
     private UUID parentGoalId;
 
-    public GoalResponse(Goal goal) {
+    public GoalResponse(BaseGoal goal) {
         this.id = goal.getId();
         this.title = goal.getTitle();
         this.description = goal.getDescription();
