@@ -6,6 +6,8 @@ import com.bbjM.task.user.domain.Credential;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @Table(name = "Goal")
-public class BaseGoal extends Auditable {
+public class BaseGoal extends Auditable implements Goal {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Id
     private UUID id;
@@ -29,6 +31,11 @@ public class BaseGoal extends Auditable {
     private Status status;
     @Column(nullable = false)
     private Long level;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private GoalType goalType;
+    private Duration duration;
+    private LocalDateTime programmedDateTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
@@ -50,5 +57,18 @@ public class BaseGoal extends Auditable {
         this.status = Status.IN_PROGRESS;
         this.level = 0L;
         if(parentGoal != null) this.level = parentGoal.getLevel() + 1L;
+    }
+
+    public void reschedule() {
+        if (programmedDateTime == null || duration == null) {
+            throw new IllegalStateException("Objetivos recorrentes precisam de data programada e duração");
+        }
+        this.programmedDateTime = programmedDateTime.plus(duration);
+        this.status = Status.SCHEDULED;
+    }
+
+    @Override
+    public void accomplish() {
+        this.status = Status.COMPLETED;
     }
 }
