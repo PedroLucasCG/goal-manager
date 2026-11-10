@@ -1,19 +1,22 @@
 package com.bbjM.task.goal.application.api.responses;
 
-import com.bbjM.task.goal.domain.BaseGoal;
+import com.bbjM.task.goal.domain.RecurringGoal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecurringGoalResponse extends GoalResponse {
-    private Duration duration;
+    private Duration interval;
+    private LocalDateTime timeToReschedule;
 
-    public RecurringGoalResponse(BaseGoal goal) {
-        this.duration = goal.getDuration();
+    public RecurringGoalResponse(RecurringGoal recurringGoal) {
+        this.interval = recurringGoal.getInterval();
+        this.timeToReschedule = recurringGoal.getRescheduleDateTime();
     }
 }

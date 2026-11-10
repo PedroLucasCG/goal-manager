@@ -21,7 +21,7 @@ public class GoalResponse {
     private String color;
     private GoalType goalType;
     private UUID parentGoalId;
-    private RecurringGoalResponse recurringGoalResponse;
+    private RecurringGoalResponse recurrenceDetails;
 
     public GoalResponse(BaseGoal goal) {
         this.id = goal.getId();
@@ -33,9 +33,8 @@ public class GoalResponse {
         if (Objects.nonNull(goal.getParentGoal())) {
             this.parentGoalId = goal.getParentGoal().getId();
         }
-        switch (this.goalType) {
-            case RECURRING:
-                this.recurringGoalResponse = new RecurringGoalResponse(goal);
-        }
+        this.recurrenceDetails = goal.getRecurringGoal() != null
+                ? new RecurringGoalResponse(goal.getRecurringGoal())
+                : null;
     }
 }

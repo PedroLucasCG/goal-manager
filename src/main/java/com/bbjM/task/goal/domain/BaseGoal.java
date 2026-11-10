@@ -7,10 +7,8 @@ import com.bbjM.task.user.domain.Credential;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -36,8 +34,6 @@ public class BaseGoal extends Auditable implements Goal {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private GoalType goalType;
-    private Duration duration;
-    private LocalDateTime dateTimeDelimiter;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
@@ -49,6 +45,9 @@ public class BaseGoal extends Auditable implements Goal {
 
     @OneToMany(mappedBy = "parentGoal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BaseGoal> children;
+
+    @OneToOne(mappedBy = "goal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private RecurringGoal recurringGoal;
 
     public BaseGoal(CreateGoalRequest createGoalRequest, Credential owner, BaseGoal parentGoal) {
         this.title = createGoalRequest.getTitle();
@@ -65,29 +64,27 @@ public class BaseGoal extends Auditable implements Goal {
     private void createOnGoalType(CreateGoalRequest createGoalRequest) {
         switch (createGoalRequest.getGoalType()) {
             case RECURRING:
-                this.goalType = GoalType.RECURRING;
-                this.duration = ((CreateRecurringGoalRequest) createGoalRequest).getDuration();
-                schedule(LocalDateTime.now());
-                this.status = Status.IN_PROGRESS;
+                goalType = GoalType.RECURRING;
+                recurringGoal = new RecurringGoal((CreateRecurringGoalRequest) createGoalRequest, this);
                 break;
             default:
-                this.goalType = GoalType.SIMPLE;
+                goalType = GoalType.SIMPLE;
                 break;
         }
     }
 
     public void reschedule() {
-        if (duration == null)
-            throw new IllegalStateException("Objetivos recorrentes precisam de duração para serem reprogramados");
+        if (recurringGoal == null)
+            throw new IllegalStateException("Esse objetivo não pode ser reprogramado!");
 
         schedule(LocalDateTime.now());
-        this.dateTimeDelimiter = this.dateTimeDelimiter.plus(duration);
+        recurringGoal.updateInterval();
     }
 
     public void schedule(LocalDateTime scheduledTime) {
         if (scheduledTime == null || scheduledTime.isBefore(LocalDateTime.now().minusMinutes(1)))
             throw new IllegalStateException("A data para programar objetivos deve ser válida!");
-        this.dateTimeDelimiter = scheduledTime;
+
         this.status = Status.SCHEDULED;
     }
 
