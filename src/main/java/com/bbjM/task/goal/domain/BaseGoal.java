@@ -35,7 +35,7 @@ public class BaseGoal extends Auditable implements Goal {
     @Column(nullable = false)
     private GoalType goalType;
     private Duration duration;
-    private LocalDateTime programmedDateTime;
+    private LocalDateTime dateTimeDelimiter;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
@@ -60,10 +60,14 @@ public class BaseGoal extends Auditable implements Goal {
     }
 
     public void reschedule() {
-        if (programmedDateTime == null || duration == null) {
-            throw new IllegalStateException("Objetivos recorrentes precisam de data programada e duração");
-        }
-        this.programmedDateTime = programmedDateTime.plus(duration);
+        if (duration == null)
+            throw new IllegalStateException("Objetivos recorrentes precisam de duração para serem reprogramados");
+
+        schedule(LocalDateTime.now());
+    }
+
+    public void schedule(LocalDateTime scheduledTime) {
+        this.dateTimeDelimiter = scheduledTime.plus(duration);
         this.status = Status.SCHEDULED;
     }
 
