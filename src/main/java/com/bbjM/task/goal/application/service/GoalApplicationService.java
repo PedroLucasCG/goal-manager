@@ -1,6 +1,7 @@
 package com.bbjM.task.goal.application.service;
 
 import com.bbjM.task.goal.application.api.requests.GoalFilterRequest;
+import com.bbjM.task.goal.application.api.requests.PatchGoalRequest;
 import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
@@ -50,6 +51,14 @@ public class GoalApplicationService implements GoalService {
                 = GoalTreeResponse.convertToTreeResponse(rootGoals, goalFilterRequest.getStartLevel());
         log.debug("[finish] GoalApplicationService - buildGoalTree");
         return goalTrees;
+    }
+
+    @Override
+    public GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest) {
+        log.info("[start] GoalApplicationService - patchGoalInfo");
+
+        log.debug("[finish] GoalApplicationService - patchGoalInfo");
+        return null;
     }
 
     private Optional<BaseGoal> getGoalById(UUID goalId, Credential owner) {

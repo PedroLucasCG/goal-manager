@@ -2,12 +2,12 @@ package com.bbjM.task.goal.application.api;
 
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.requests.GoalFilterRequest;
+import com.bbjM.task.goal.application.api.requests.PatchGoalRequest;
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
 import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
 import com.bbjM.task.goal.application.service.GoalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,5 +33,13 @@ public class GoalRestController implements GoalAPI {
                 = goalService.buildGoalTree(email, goalFilterRequest);
         log.debug("[finish] GoalRestController - showGoalTree");
         return goalResponses;
+    }
+
+    @Override
+    public GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest) {
+        log.info("[start] GoalRestController - patchGoalInfo");
+        GoalResponse goalResponse = goalService.patchGoalInfo(patchGoalRequest);
+        log.debug("[finish] GoalRestController - patchGoalInfo");
+        return goalResponse;
     }
 }
