@@ -2,6 +2,7 @@ package com.bbjM.task.goal.domain;
 
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.requests.CreateRecurringGoalRequest;
+import com.bbjM.task.goal.application.api.requests.PatchGoalRequest;
 import com.bbjM.task.shared.Auditable;
 import com.bbjM.task.user.domain.Credential;
 import jakarta.persistence.*;

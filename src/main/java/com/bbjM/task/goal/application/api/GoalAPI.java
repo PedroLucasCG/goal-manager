@@ -21,6 +21,6 @@ public interface GoalAPI {
     List<GoalTreeResponse> showGoalTree(@Valid @PathVariable String email,
                                         @ParameterObject @ModelAttribute GoalFilterRequest goalFilterRequest);
 
-    @PatchMapping
-    GoalResponse patchGoalInfo(@Valid @RequestBody PatchGoalRequest patchGoalRequest);
+    @PatchMapping("/{email}")
+    GoalResponse patchGoalInfo(@Valid @RequestBody PatchGoalRequest patchGoalRequest, @PathVariable String email);
 }

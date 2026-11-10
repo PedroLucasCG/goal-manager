@@ -36,9 +36,9 @@ public class GoalRestController implements GoalAPI {
     }
 
     @Override
-    public GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest) {
+    public GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest, String email) {
         log.info("[start] GoalRestController - patchGoalInfo");
-        GoalResponse goalResponse = goalService.patchGoalInfo(patchGoalRequest);
+        GoalResponse goalResponse = goalService.patchGoalInfo(patchGoalRequest, email);
         log.debug("[finish] GoalRestController - patchGoalInfo");
         return goalResponse;
     }

@@ -12,7 +12,8 @@ public enum ErrorCode {
     UNAUTHENTICATED_ON_LOGIN(HttpStatus.UNAUTHORIZED, "unauthorized.on.login"),
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "access.denied"),
     USERNAME_ALREADY_USED(HttpStatus.CONFLICT, "username.already.used"),
-    PARENT_GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "parent.goal.not.found" );
+    PARENT_GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "parent.goal.not.found" ),
+    GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "goal.not.found" ),;
 
     private final HttpStatus status;
     private final String code;

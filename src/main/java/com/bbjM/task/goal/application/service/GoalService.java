@@ -13,5 +13,5 @@ public interface GoalService {
 
     List<GoalTreeResponse> buildGoalTree(String email, GoalFilterRequest goalFilterRequest);
 
-    GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest);
+    GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest, String email);
 }
