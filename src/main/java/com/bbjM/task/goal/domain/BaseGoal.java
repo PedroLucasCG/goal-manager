@@ -67,7 +67,8 @@ public class BaseGoal extends Auditable implements Goal {
             case RECURRING:
                 this.goalType = GoalType.RECURRING;
                 this.duration = ((CreateRecurringGoalRequest) createGoalRequest).getDuration();
-                reschedule();
+                schedule(LocalDateTime.now());
+                this.status = Status.IN_PROGRESS;
                 break;
             default:
                 this.goalType = GoalType.SIMPLE;
@@ -80,10 +81,13 @@ public class BaseGoal extends Auditable implements Goal {
             throw new IllegalStateException("Objetivos recorrentes precisam de duração para serem reprogramados");
 
         schedule(LocalDateTime.now());
+        this.dateTimeDelimiter = this.dateTimeDelimiter.plus(duration);
     }
 
     public void schedule(LocalDateTime scheduledTime) {
-        this.dateTimeDelimiter = scheduledTime.plus(duration);
+        if (scheduledTime == null || scheduledTime.isBefore(LocalDateTime.now().minusMinutes(1)))
+            throw new IllegalStateException("A data para programar objetivos deve ser válida!");
+        this.dateTimeDelimiter = scheduledTime;
         this.status = Status.SCHEDULED;
     }
 
