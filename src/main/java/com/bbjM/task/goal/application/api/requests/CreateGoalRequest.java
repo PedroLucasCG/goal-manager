@@ -1,6 +1,8 @@
 package com.bbjM.task.goal.application.api.requests;
 
 import com.bbjM.task.goal.domain.GoalType;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +13,16 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "goalType",
+        visible = true
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = CreateSimpleGoalRequest.class, name = "SIMPLE"),
+        @JsonSubTypes.Type(value = CreateRecurringGoalRequest.class, name = "RECURRING")
+})
 public class CreateGoalRequest {
     @NotBlank(message = "O objetivo precisa de um nome!")
     private String title;

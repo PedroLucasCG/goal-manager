@@ -18,7 +18,7 @@ public interface GoalPostgresRepository extends JpaRepository<BaseGoal, UUID> {
 
     @Query(value = """
 
-            WITH RECURSIVE start_page AS (
+    WITH RECURSIVE start_page AS (
         SELECT g.id, g.owner, g.level
         FROM goal g
         JOIN credential c ON c.id = g.owner

@@ -1,6 +1,7 @@
 package com.bbjM.task.goal.domain;
 
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
+import com.bbjM.task.goal.application.api.requests.CreateRecurringGoalRequest;
 import com.bbjM.task.shared.Auditable;
 import com.bbjM.task.user.domain.Credential;
 import jakarta.persistence.*;
@@ -58,7 +59,20 @@ public class BaseGoal extends Auditable implements Goal {
         this.status = Status.IN_PROGRESS;
         this.level = 0L;
         if(parentGoal != null) this.level = parentGoal.getLevel() + 1L;
-        this.goalType = Objects.requireNonNullElse(createGoalRequest.getGoalType(), GoalType.SIMPLE);
+        createOnGoalType(createGoalRequest);
+    }
+
+    private void createOnGoalType(CreateGoalRequest createGoalRequest) {
+        switch (createGoalRequest.getGoalType()) {
+            case RECURRING:
+                this.goalType = GoalType.RECURRING;
+                this.duration = ((CreateRecurringGoalRequest) createGoalRequest).getDuration();
+                reschedule();
+                break;
+            default:
+                this.goalType = GoalType.SIMPLE;
+                break;
+        }
     }
 
     public void reschedule() {
