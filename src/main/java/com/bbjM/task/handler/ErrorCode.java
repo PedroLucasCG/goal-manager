@@ -13,7 +13,9 @@ public enum ErrorCode {
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "access.denied"),
     USERNAME_ALREADY_USED(HttpStatus.CONFLICT, "username.already.used"),
     PARENT_GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "parent.goal.not.found" ),
-    GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "goal.not.found" ),;
+    GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "goal.not.found" ),
+    GOAL_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, "goal.type.mismatch" ),
+    GOAL_NOT_RECURRING(HttpStatus.BAD_REQUEST, "goal.not.recurring" ),;
 
     private final HttpStatus status;
     private final String code;

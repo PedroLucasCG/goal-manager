@@ -3,6 +3,9 @@ package com.bbjM.task.goal.domain;
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.requests.CreateRecurringGoalRequest;
 import com.bbjM.task.goal.application.api.requests.PatchGoalRequest;
+import com.bbjM.task.goal.application.api.requests.PatchRecurringGoalRequest;
+import com.bbjM.task.handler.APIException;
+import com.bbjM.task.handler.ErrorCode;
 import com.bbjM.task.shared.Auditable;
 import com.bbjM.task.user.domain.Credential;
 import jakarta.persistence.*;
@@ -79,7 +82,7 @@ public class BaseGoal extends Auditable implements Goal {
             throw new IllegalStateException("Esse objetivo não pode ser reprogramado!");
 
         schedule(LocalDateTime.now());
-        recurringGoal.updateInterval();
+        recurringGoal.nextCycle();
     }
 
     public void schedule(LocalDateTime scheduledTime) {
@@ -92,5 +95,20 @@ public class BaseGoal extends Auditable implements Goal {
     @Override
     public void accomplish() {
         this.status = Status.COMPLETED;
+    }
+
+    public void updateGoalInfo(PatchGoalRequest patchGoalRequest) {
+        if (patchGoalRequest.getGoalType() != this.goalType) {
+            throw new APIException(ErrorCode.GOAL_TYPE_MISMATCH);   // 400 instead of a 500
+        }
+        if (patchGoalRequest.getTitle() != null) this.title = patchGoalRequest.getTitle();
+        if (patchGoalRequest.getDescription() != null) this.description = patchGoalRequest.getDescription();
+        if (patchGoalRequest.getColor() != null) this.color = patchGoalRequest.getColor();
+
+        if (patchGoalRequest instanceof PatchRecurringGoalRequest recurringGoalRequest) {
+            if (recurringGoal == null) throw new APIException(ErrorCode.GOAL_NOT_RECURRING);
+            this.recurringGoal.applyPatch(recurringGoalRequest);
+        }
+
     }
 }

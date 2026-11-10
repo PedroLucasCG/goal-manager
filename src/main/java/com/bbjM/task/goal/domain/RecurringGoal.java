@@ -1,6 +1,7 @@
 package com.bbjM.task.goal.domain;
 
 import com.bbjM.task.goal.application.api.requests.CreateRecurringGoalRequest;
+import com.bbjM.task.goal.application.api.requests.PatchRecurringGoalRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,8 +33,13 @@ public class RecurringGoal {
         this.rescheduleDateTime = LocalDateTime.now();
     }
 
-    public void updateInterval() {
+    public void nextCycle() {
         rescheduleDateTime.plus(interval);
     }
 
+    public void applyPatch(PatchRecurringGoalRequest patchRecurringGoalRequest) {
+        if (patchRecurringGoalRequest.getInterval() != null) this.interval = patchRecurringGoalRequest.getInterval();
+        if (patchRecurringGoalRequest.getRescheduleTime() != null)
+            this.rescheduleDateTime = patchRecurringGoalRequest.getRescheduleTime();
+    }
 }

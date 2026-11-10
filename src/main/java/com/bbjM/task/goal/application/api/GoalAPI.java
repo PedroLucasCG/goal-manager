@@ -10,6 +10,7 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/goal")
@@ -21,6 +22,7 @@ public interface GoalAPI {
     List<GoalTreeResponse> showGoalTree(@Valid @PathVariable String email,
                                         @ParameterObject @ModelAttribute GoalFilterRequest goalFilterRequest);
 
-    @PatchMapping("/{email}")
-    GoalResponse patchGoalInfo(@Valid @RequestBody PatchGoalRequest patchGoalRequest, @PathVariable String email);
+    @PatchMapping("/{email}/{goalId}")
+    GoalResponse patchGoalInfo(
+            @Valid @RequestBody PatchGoalRequest patchGoalRequest, @PathVariable String email, @PathVariable UUID goalId);
 }

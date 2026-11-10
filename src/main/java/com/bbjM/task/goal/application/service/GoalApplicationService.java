@@ -6,7 +6,6 @@ import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
 import com.bbjM.task.goal.domain.BaseGoal;
-import com.bbjM.task.goal.domain.Goal;
 import com.bbjM.task.goal.infra.GoalRepository;
 import com.bbjM.task.handler.APIException;
 import com.bbjM.task.handler.ErrorCode;
@@ -55,13 +54,14 @@ public class GoalApplicationService implements GoalService {
     }
 
     @Override
-    public GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest, String email) {
+    public GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest, String email, UUID goalId) {
         log.info("[start] GoalApplicationService - patchGoalInfo");
         Credential owner = authRepository.findUserByEmail(email)
                 .orElseThrow(() -> new APIException(ErrorCode.CREDENTIAL_NOT_FOUND));
-        BaseGoal baseGoalFromRequest = getGoalById(patchGoalRequest.getGoalId(), owner)
+        BaseGoal baseGoalToUpdate = getGoalById(goalId, owner)
                 .orElseThrow(() -> new APIException(ErrorCode.GOAL_NOT_FOUND));
-        BaseGoal baseGoal = goalRepository.saveGoal(baseGoalFromRequest);
+        baseGoalToUpdate.updateGoalInfo(patchGoalRequest);
+        BaseGoal baseGoal = goalRepository.saveGoal(baseGoalToUpdate);
         GoalResponse goalResponse = new GoalResponse(baseGoal);
         log.debug("[finish] GoalApplicationService - patchGoalInfo");
         return goalResponse;
