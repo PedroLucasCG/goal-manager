@@ -26,6 +26,6 @@ public class PatchGoalRequest {
     private String title;
     private String description;
     private String color;
-    @NotNull
+    @NotNull(message = "O tipo de objetivo é obrigatório!")
     private GoalType goalType;
 }
