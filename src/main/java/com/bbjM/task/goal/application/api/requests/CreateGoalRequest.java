@@ -1,5 +1,6 @@
 package com.bbjM.task.goal.application.api.requests;
 
+import com.bbjM.task.goal.domain.GoalType;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,4 +18,5 @@ public class CreateGoalRequest {
     private String description;
     private String color;
     private UUID parentGoal;
+    private GoalType goalType;
 }

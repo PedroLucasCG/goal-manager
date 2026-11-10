@@ -9,6 +9,7 @@ import lombok.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -57,6 +58,7 @@ public class BaseGoal extends Auditable implements Goal {
         this.status = Status.IN_PROGRESS;
         this.level = 0L;
         if(parentGoal != null) this.level = parentGoal.getLevel() + 1L;
+        this.goalType = Objects.requireNonNullElse(createGoalRequest.getGoalType(), GoalType.SIMPLE);
     }
 
     public void reschedule() {
