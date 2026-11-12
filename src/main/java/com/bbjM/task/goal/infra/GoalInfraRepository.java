@@ -40,4 +40,11 @@ public class GoalInfraRepository implements GoalRepository {
         log.debug("[finish] GoalInfraRepository - findRootGoalsByUserEmail");
         return goals;
     }
+
+    @Override
+    public void deleteGoal(BaseGoal goalToDelete) {
+        log.info("[start] GoalInfraRepository - deleteGoal");
+        goalPostgresRepository.delete(goalToDelete);
+        log.debug("[finish] GoalInfraRepository - deleteGoal");
+    }
 }

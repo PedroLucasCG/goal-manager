@@ -68,10 +68,15 @@ public class GoalApplicationService implements GoalService {
     }
 
     @Override
-    public void deleteGoalTree(String email, UUID goalId) {
+    public BaseGoal deleteGoalTree(String email, UUID goalId) {
         log.info("[start] GoalApplicationService - deleteGoalTree");
-
+        Credential owner = authRepository.findUserByEmail(email)
+                .orElseThrow(() -> new APIException(ErrorCode.CREDENTIAL_NOT_FOUND));
+        BaseGoal goalToDelete = getGoalById(goalId, owner)
+                .orElseThrow(() -> new APIException(ErrorCode.GOAL_NOT_FOUND));
+        goalRepository.deleteGoal(goalToDelete);
         log.debug("[finish] GoalApplicationService - deleteGoalTree");
+        return goalToDelete;
     }
 
     private Optional<BaseGoal> getGoalById(UUID goalId, Credential owner) {

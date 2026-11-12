@@ -14,4 +14,6 @@ public interface GoalRepository {
     Optional<BaseGoal> findGoalById(UUID id, Credential owner);
 
     List<BaseGoal> findRootGoalsByUserEmail(String email, GoalFilterRequest goalFilterRequest);
+
+    void deleteGoal(BaseGoal goalToDelete);
 }
