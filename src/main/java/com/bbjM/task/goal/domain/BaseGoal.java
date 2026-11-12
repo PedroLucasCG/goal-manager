@@ -99,7 +99,7 @@ public class BaseGoal extends Auditable implements Goal {
 
     public void updateGoalInfo(PatchGoalRequest patchGoalRequest) {
         if (patchGoalRequest.getGoalType() != this.goalType) {
-            throw new APIException(ErrorCode.GOAL_TYPE_MISMATCH);   // 400 instead of a 500
+            throw new APIException(ErrorCode.GOAL_TYPE_MISMATCH);
         }
         if (patchGoalRequest.getTitle() != null) this.title = patchGoalRequest.getTitle();
         if (patchGoalRequest.getDescription() != null) this.description = patchGoalRequest.getDescription();

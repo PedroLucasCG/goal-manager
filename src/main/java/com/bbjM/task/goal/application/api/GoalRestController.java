@@ -43,4 +43,11 @@ public class GoalRestController implements GoalAPI {
         log.debug("[finish] GoalRestController - patchGoalInfo");
         return goalResponse;
     }
+
+    @Override
+    public void deleteGoalTree(String email, UUID goalId) {
+        log.info("[start] GoalRestController - deleteGoalTree");
+        goalService.deleteGoalTree(email, goalId);
+        log.debug("[finish] GoalRestController - deleteGoalTree");
+    }
 }

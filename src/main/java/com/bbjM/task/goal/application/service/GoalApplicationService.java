@@ -67,6 +67,13 @@ public class GoalApplicationService implements GoalService {
         return goalResponse;
     }
 
+    @Override
+    public void deleteGoalTree(String email, UUID goalId) {
+        log.info("[start] GoalApplicationService - deleteGoalTree");
+
+        log.debug("[finish] GoalApplicationService - deleteGoalTree");
+    }
+
     private Optional<BaseGoal> getGoalById(UUID goalId, Credential owner) {
         log.info("[start] GoalApplicationService - getGoalById");
         Optional<BaseGoal> goalFromDB = goalRepository.findGoalById(goalId, owner);

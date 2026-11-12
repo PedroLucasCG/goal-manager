@@ -15,4 +15,6 @@ public interface GoalService {
     List<GoalTreeResponse> buildGoalTree(String email, GoalFilterRequest goalFilterRequest);
 
     GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest, String email, UUID goalId);
+
+    void deleteGoalTree(String email, UUID goalId);
 }
