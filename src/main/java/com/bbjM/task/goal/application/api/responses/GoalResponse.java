@@ -22,6 +22,7 @@ public class GoalResponse {
     private GoalType goalType;
     private UUID parentGoalId;
     private RecurringGoalResponse recurrenceDetails;
+    private Long level;
 
     public GoalResponse(BaseGoal goal) {
         this.id = goal.getId();
@@ -30,6 +31,7 @@ public class GoalResponse {
         this.color = goal.getColor();
         this.parentGoalId = null;
         this.goalType = goal.getGoalType();
+        this.level = goal.getLevel();
         if (Objects.nonNull(goal.getParentGoal())) {
             this.parentGoalId = goal.getParentGoal().getId();
         }
