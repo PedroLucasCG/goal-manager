@@ -56,10 +56,10 @@ public class GoalApplicationService implements GoalService {
     @Override
     public GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest, String email, UUID goalId) {
         log.info("[start] GoalApplicationService - patchGoalInfo");
-        BaseGoal baseGoalToUpdate = getGoalById(goalId, email);
-        baseGoalToUpdate.updateGoalInfo(patchGoalRequest);
-        BaseGoal baseGoal = goalRepository.saveGoal(baseGoalToUpdate);
-        GoalResponse goalResponse = new GoalResponse(baseGoal);
+        BaseGoal goalToUpdate = getGoalById(goalId, email);
+        goalToUpdate.updateGoalInfo(patchGoalRequest);
+        BaseGoal updatedGoal = goalRepository.saveGoal(goalToUpdate);
+        GoalResponse goalResponse = new GoalResponse(updatedGoal);
         log.debug("[finish] GoalApplicationService - patchGoalInfo");
         return goalResponse;
     }
@@ -76,7 +76,7 @@ public class GoalApplicationService implements GoalService {
     @Override
     public BaseGoal accomplishGoal(String email, UUID goalId) {
         log.info("[start] GoalApplicationService - accomplishGoal");
-
+        BaseGoal goalToAccomplish = getGoalById(goalId, email);
         log.debug("[finish] GoalApplicationService - accomplishGoal");
         return null;
     }
