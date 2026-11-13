@@ -2,6 +2,7 @@ package com.bbjM.task.goal.application.api.responses;
 
 import com.bbjM.task.goal.domain.BaseGoal;
 import com.bbjM.task.goal.domain.GoalType;
+import com.bbjM.task.goal.domain.Status;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class GoalResponse {
     private GoalType goalType;
     private UUID parentGoalId;
     private RecurringGoalResponse recurrenceDetails;
+    private Status status;
     private Long level;
 
     public GoalResponse(BaseGoal goal) {
@@ -32,6 +34,7 @@ public class GoalResponse {
         this.parentGoalId = null;
         this.goalType = goal.getGoalType();
         this.level = goal.getLevel();
+        this.status = goal.getStatus();
         if (Objects.nonNull(goal.getParentGoal())) {
             this.parentGoalId = goal.getParentGoal().getId();
         }

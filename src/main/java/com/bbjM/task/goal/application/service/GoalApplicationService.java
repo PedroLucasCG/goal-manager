@@ -6,6 +6,8 @@ import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
 import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
 import com.bbjM.task.goal.domain.BaseGoal;
+import com.bbjM.task.goal.domain.Goal;
+import com.bbjM.task.goal.domain.RecurringGoalDecorator;
 import com.bbjM.task.goal.infra.GoalRepository;
 import com.bbjM.task.handler.APIException;
 import com.bbjM.task.handler.ErrorCode;
@@ -16,7 +18,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Log4j2
@@ -77,8 +78,11 @@ public class GoalApplicationService implements GoalService {
     public BaseGoal accomplishGoal(String email, UUID goalId) {
         log.info("[start] GoalApplicationService - accomplishGoal");
         BaseGoal goalToAccomplish = getGoalById(goalId, email);
+        Goal goalDecorated = decorateGoalByType(goalToAccomplish);
+        goalDecorated.accomplish();
+        BaseGoal accomplishedGoal = goalRepository.saveGoal(goalToAccomplish);
         log.debug("[finish] GoalApplicationService - accomplishGoal");
-        return null;
+        return accomplishedGoal;
     }
 
     private BaseGoal getGoalById(UUID goalId, String email) {
@@ -89,5 +93,22 @@ public class GoalApplicationService implements GoalService {
                 .orElseThrow(() -> new APIException(ErrorCode.GOAL_NOT_FOUND));
         log.debug("[finish] GoalApplicationService - getGoalById");
         return goal;
+    }
+
+    private Goal decorateGoalByType(BaseGoal goal) {
+        log.info("[start] GoalApplicationService - makeGoalFromType");
+        Goal goalWrapped;
+        switch (goal.getGoalType()) {
+            case RECURRING:
+                goalWrapped = new RecurringGoalDecorator(goal);
+                break;
+            case SIMPLE:
+                goalWrapped = goal;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + goal.getGoalType());
+        }
+        log.debug("[finish] GoalApplicationService - makeGoalFromType");
+        return goalWrapped;
     }
 }
