@@ -34,4 +34,9 @@ public interface GoalAPI {
     @DeleteMapping("/{goalId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteGoalTree(@Valid @PathVariable String email, @PathVariable UUID goalId);
+
+    @PatchMapping("/{goalId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void accomplishGoal(@Valid @PathVariable String email, @PathVariable UUID goalId);
+
 }

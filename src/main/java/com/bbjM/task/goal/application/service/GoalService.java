@@ -18,4 +18,6 @@ public interface GoalService {
     GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest, String email, UUID goalId);
 
     BaseGoal deleteGoalTree(String email, UUID goalId);
+
+    BaseGoal accomplishGoal(String email, UUID goalId);
 }
