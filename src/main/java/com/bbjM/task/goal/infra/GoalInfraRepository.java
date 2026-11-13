@@ -44,7 +44,8 @@ public class GoalInfraRepository implements GoalRepository {
     @Override
     public void deleteGoal(BaseGoal goalToDelete) {
         log.info("[start] GoalInfraRepository - deleteGoal");
-        goalPostgresRepository.delete(goalToDelete);
+        int deletedLines = goalPostgresRepository.deleteGoalTree(goalToDelete.getId(), goalToDelete.getOwner().getId());
+        log.info("[deleteGoal] deleted lines - {}", deletedLines);
         log.debug("[finish] GoalInfraRepository - deleteGoal");
     }
 }
