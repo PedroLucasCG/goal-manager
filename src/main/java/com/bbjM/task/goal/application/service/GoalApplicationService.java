@@ -33,7 +33,7 @@ public class GoalApplicationService implements GoalService {
                 .orElseThrow(() -> new APIException(ErrorCode.CREDENTIAL_NOT_FOUND));
         BaseGoal parentGoal = null;
         if (createGoalRequest.getParentGoal() != null) {
-            parentGoal = getGoalById(createGoalRequest.getParentGoal(), owner)
+            parentGoal = goalRepository.findGoalById(createGoalRequest.getParentGoal(), owner)
                     .orElseThrow(() -> new APIException(ErrorCode.PARENT_GOAL_NOT_FOUND));
         }
         BaseGoal goalFromRequest = new BaseGoal(createGoalRequest, owner, parentGoal);
@@ -56,10 +56,7 @@ public class GoalApplicationService implements GoalService {
     @Override
     public GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest, String email, UUID goalId) {
         log.info("[start] GoalApplicationService - patchGoalInfo");
-        Credential owner = authRepository.findUserByEmail(email)
-                .orElseThrow(() -> new APIException(ErrorCode.CREDENTIAL_NOT_FOUND));
-        BaseGoal baseGoalToUpdate = getGoalById(goalId, owner)
-                .orElseThrow(() -> new APIException(ErrorCode.GOAL_NOT_FOUND));
+        BaseGoal baseGoalToUpdate = getGoalById(goalId, email);
         baseGoalToUpdate.updateGoalInfo(patchGoalRequest);
         BaseGoal baseGoal = goalRepository.saveGoal(baseGoalToUpdate);
         GoalResponse goalResponse = new GoalResponse(baseGoal);
@@ -70,10 +67,7 @@ public class GoalApplicationService implements GoalService {
     @Override
     public BaseGoal deleteGoalTree(String email, UUID goalId) {
         log.info("[start] GoalApplicationService - deleteGoalTree");
-        Credential owner = authRepository.findUserByEmail(email)
-                .orElseThrow(() -> new APIException(ErrorCode.CREDENTIAL_NOT_FOUND));
-        BaseGoal goalToDelete = getGoalById(goalId, owner)
-                .orElseThrow(() -> new APIException(ErrorCode.GOAL_NOT_FOUND));
+        BaseGoal goalToDelete = getGoalById(goalId, email);
         goalRepository.deleteGoal(goalToDelete);
         log.debug("[finish] GoalApplicationService - deleteGoalTree");
         return goalToDelete;
@@ -87,10 +81,13 @@ public class GoalApplicationService implements GoalService {
         return null;
     }
 
-    private Optional<BaseGoal> getGoalById(UUID goalId, Credential owner) {
+    private BaseGoal getGoalById(UUID goalId, String email) {
         log.info("[start] GoalApplicationService - getGoalById");
-        Optional<BaseGoal> goalFromDB = goalRepository.findGoalById(goalId, owner);
+        Credential owner = authRepository.findUserByEmail(email)
+                .orElseThrow(() -> new APIException(ErrorCode.CREDENTIAL_NOT_FOUND));
+        BaseGoal goal = goalRepository.findGoalById(goalId, owner)
+                .orElseThrow(() -> new APIException(ErrorCode.GOAL_NOT_FOUND));
         log.debug("[finish] GoalApplicationService - getGoalById");
-        return goalFromDB;
+        return goal;
     }
 }
