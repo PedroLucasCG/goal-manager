@@ -1,6 +1,7 @@
 package com.bbjM.task.goal.application.api.responses;
 
 import com.bbjM.task.goal.domain.BaseGoal;
+import com.bbjM.task.goal.domain.Status;
 import lombok.Getter;
 
 import java.util.*;
@@ -10,6 +11,7 @@ public class GoalTreeResponse {
 
     private final GoalResponse goal;
     private final List<GoalTreeResponse> children;
+    private Long progress = 0L;
 
     private GoalTreeResponse(BaseGoal goal, Map<UUID, List<BaseGoal>> goalsByParentId) {
         this.goal = new GoalResponse(goal);
@@ -18,6 +20,17 @@ public class GoalTreeResponse {
         for (BaseGoal child : goalsByParentId.getOrDefault(goal.getId(), List.of())) {
             this.children.add(new GoalTreeResponse(child, goalsByParentId));
         }
+
+        updateProgress(goalsByParentId.getOrDefault(goal.getId(), List.of()));
+    }
+
+    private void updateProgress(List<BaseGoal> goals) {
+        int total = goals.size();
+        if (total == 0) return;
+        long completed = goals.stream()
+                .filter(g -> g.getStatus() == Status.COMPLETED)
+                .count();
+        this.progress = Math.round((double) (completed * 10000L) / total) / 100L;
     }
 
     public static List<GoalTreeResponse> convertToTreeResponse(List<BaseGoal> goals, Long initLevel) {
