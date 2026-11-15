@@ -11,7 +11,7 @@ public class GoalTreeResponse {
 
     private final GoalResponse goal;
     private final List<GoalTreeResponse> children;
-    private Long progress = 0L;
+    private Long progressPercentage = 0L;
 
     private GoalTreeResponse(BaseGoal goal, Map<UUID, List<BaseGoal>> goalsByParentId) {
         this.goal = new GoalResponse(goal);
@@ -30,7 +30,7 @@ public class GoalTreeResponse {
         long completed = goals.stream()
                 .filter(g -> g.getStatus() == Status.COMPLETED)
                 .count();
-        this.progress = Math.round((double) (completed * 10000L) / total) / 100L;
+        this.progressPercentage = Math.round((double) (completed * 10000L) / total) / 100L;
     }
 
     public static List<GoalTreeResponse> convertToTreeResponse(List<BaseGoal> goals, Long initLevel) {
