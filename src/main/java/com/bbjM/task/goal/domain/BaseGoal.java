@@ -77,14 +77,6 @@ public class BaseGoal extends Auditable implements Goal {
         }
     }
 
-    public void reschedule() {
-        if (recurringGoal == null)
-            throw new IllegalStateException("Esse objetivo não pode ser reprogramado!");
-
-        schedule(LocalDateTime.now());
-        recurringGoal.nextCycle();
-    }
-
     public void schedule(LocalDateTime scheduledTime) {
         if (scheduledTime == null || scheduledTime.isBefore(LocalDateTime.now().minusMinutes(1)))
             throw new IllegalStateException("A data para programar objetivos deve ser válida!");
@@ -94,6 +86,7 @@ public class BaseGoal extends Auditable implements Goal {
 
     @Override
     public void accomplish() {
+        if(status != Status.IN_PROGRESS) return;
         this.status = Status.COMPLETED;
     }
 
