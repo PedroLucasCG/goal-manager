@@ -71,6 +71,7 @@ public class BaseGoal extends Auditable implements Goal {
         this.parentGoal = parentGoal;
         this.owner = owner;
         this.status = Status.IN_PROGRESS;
+        this.goalType = createGoalRequest.getGoalType();
         this.level = 0L;
         if(parentGoal != null) this.level = parentGoal.getLevel() + 1L;
         createOnGoalType(createGoalRequest);
@@ -78,31 +79,17 @@ public class BaseGoal extends Auditable implements Goal {
 
     private void createOnGoalType(CreateGoalRequest createGoalRequest) {
         switch (createGoalRequest.getGoalType()) {
-            case RECURRING:
-                goalType = GoalType.RECURRING;
-                recurringGoal = new RecurringGoal((CreateRecurringGoalRequest) createGoalRequest, this);
-                break;
-            case SCHEDULED:
-                goalType = GoalType.SCHEDULED;
-                scheduledGoal = new ScheduledGoal((CreateScheduledGoal) createGoalRequest, this);
-                break;
-            case DEADLINE:
-                goalType = GoalType.DEADLINE;
-                deadlineGoal = new DeadlineGoal((CreateDeadlineGoalRequest) createGoalRequest, null);
-                break;
-            case REPEATING:
-                goalType = GoalType.REPEATING;
-                repeatingGoal = new RepeatingGoal((CreateRepeatingGoalRequest) createGoalRequest, this);
-                break;
-            case STACKABLE:
-                goalType = GoalType.STACKABLE;
-                stackableGoal = new StackableGoal((CreateStackableGoalRequest) createGoalRequest, this);
-                break;
-            case SIMPLE:
-                goalType = GoalType.SIMPLE;
-                break;
-            default:
-                throw new IllegalStateException("Tipo inválido");
+            case RECURRING ->
+                    recurringGoal = new RecurringGoal((CreateRecurringGoalRequest) createGoalRequest, this);
+            case SCHEDULED ->
+                    scheduledGoal = new ScheduledGoal((CreateScheduledGoal) createGoalRequest, this);
+            case DEADLINE ->
+                    deadlineGoal = new DeadlineGoal((CreateDeadlineGoalRequest) createGoalRequest, null);
+            case REPEATING ->
+                    repeatingGoal = new RepeatingGoal((CreateRepeatingGoalRequest) createGoalRequest, this);
+            case STACKABLE ->
+                    stackableGoal = new StackableGoal((CreateStackableGoalRequest) createGoalRequest, this);
+            default -> throw new IllegalStateException("Tipo inválido");
         }
     }
 

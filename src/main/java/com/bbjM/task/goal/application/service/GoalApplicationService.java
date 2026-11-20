@@ -7,7 +7,7 @@ import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateGoa
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
 import com.bbjM.task.goal.domain.BaseGoal;
 import com.bbjM.task.goal.domain.Goal;
-import com.bbjM.task.goal.domain.decorator.RecurringGoalDecorator;
+import com.bbjM.task.goal.domain.decorator.*;
 import com.bbjM.task.goal.infra.GoalRepository;
 import com.bbjM.task.handler.APIException;
 import com.bbjM.task.handler.ErrorCode;
@@ -97,17 +97,15 @@ public class GoalApplicationService implements GoalService {
 
     private Goal decorateGoalByType(BaseGoal goal) {
         log.info("[start] GoalApplicationService - makeGoalFromType");
-        Goal goalWrapped;
-        switch (goal.getGoalType()) {
-            case RECURRING:
-                goalWrapped = new RecurringGoalDecorator(goal);
-                break;
-            case SIMPLE:
-                goalWrapped = goal;
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + goal.getGoalType());
-        }
+        Goal goalWrapped = switch (goal.getGoalType()) {
+            case RECURRING -> new RecurringGoalDecorator(goal);
+            case DEADLINE -> new DeadlineGoalDecorator(goal);
+            case REPEATING -> new RepeatingGoalDecorator(goal);
+            case SCHEDULED -> new ScheduleGoalDecorator(goal);
+            case STACKABLE -> new StackableGoalDecorator(goal);
+            case SIMPLE -> goal;
+            default -> throw new IllegalStateException("Unexpected value: " + goal.getGoalType());
+        };
         log.debug("[finish] GoalApplicationService - makeGoalFromType");
         return goalWrapped;
     }
