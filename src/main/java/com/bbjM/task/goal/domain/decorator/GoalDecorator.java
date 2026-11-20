@@ -1,10 +1,10 @@
-package com.bbjM.task.goal.domain;
+package com.bbjM.task.goal.domain.decorator;
 
-import lombok.AllArgsConstructor;
+import com.bbjM.task.goal.domain.Goal;
 import lombok.Getter;
 
 @Getter
-public abstract class GoalDecorator implements Goal{
+public abstract class GoalDecorator implements Goal {
     private final Goal baseGoal;
 
     protected GoalDecorator(Goal baseGoal) {

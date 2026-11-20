@@ -1,4 +1,7 @@
-package com.bbjM.task.goal.domain;
+package com.bbjM.task.goal.domain.decorator;
+
+import com.bbjM.task.goal.domain.BaseGoal;
+import com.bbjM.task.goal.domain.Goal;
 
 public class RecurringGoalDecorator extends GoalDecorator{
     private final BaseGoal baseGoal;
