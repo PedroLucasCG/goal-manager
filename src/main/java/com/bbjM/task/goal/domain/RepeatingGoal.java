@@ -25,7 +25,7 @@ public class RepeatingGoal {
 
     public RepeatingGoal(CreateRepeatingGoalRequest createRepeatingGoalRequest, BaseGoal baseGoal) {
         this.goal = baseGoal;
-        this.repetitionCounter = createRepeatingGoalRequest.getRepeationCounter();
-        this.repetitionLimit = createRepeatingGoalRequest.getRepeationLimit();
+        this.repetitionCounter = createRepeatingGoalRequest.getRepetitionCounter();
+        this.repetitionLimit = createRepeatingGoalRequest.getRepetitionLimit();
     }
 }

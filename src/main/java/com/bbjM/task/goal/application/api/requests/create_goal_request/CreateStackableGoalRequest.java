@@ -1,5 +1,6 @@
 package com.bbjM.task.goal.application.api.requests.create_goal_request;
 
+import com.bbjM.task.goal.domain.GoalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateStackableGoalRequest extends CreateGoalRequest{
+public class CreateStackableGoalRequest implements CreateGoalBehaviorRequest{
     private Long quantity;
     private Long stackLimit;
+
+    public GoalType getGoalType() {
+        return GoalType.STACKABLE;
+    }
 }

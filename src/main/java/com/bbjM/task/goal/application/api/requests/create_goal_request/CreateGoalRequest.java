@@ -4,25 +4,17 @@ import com.bbjM.task.goal.domain.GoalType;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "goalType",
-        visible = true
-)
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = CreateSimpleGoalRequest.class, name = "SIMPLE"),
-        @JsonSubTypes.Type(value = CreateRecurringGoalRequest.class, name = "RECURRING")
-})
 public class CreateGoalRequest {
     @NotBlank(message = "O objetivo precisa de um nome!")
     private String title;
@@ -31,4 +23,5 @@ public class CreateGoalRequest {
     private String color;
     private UUID parentGoal;
     private GoalType goalType;
+    private List<CreateGoalBehaviorRequest> behaviors;
 }

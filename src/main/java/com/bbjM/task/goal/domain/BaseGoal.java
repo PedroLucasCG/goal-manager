@@ -74,21 +74,21 @@ public class BaseGoal extends Auditable implements Goal {
         this.goalType = createGoalRequest.getGoalType();
         this.level = 0L;
         if(parentGoal != null) this.level = parentGoal.getLevel() + 1L;
-        createOnGoalType(createGoalRequest);
+        createGoalRequest.getBehaviors().forEach(this::createOnGoalType);
     }
 
-    private void createOnGoalType(CreateGoalRequest createGoalRequest) {
-        switch (createGoalRequest.getGoalType()) {
-            case RECURRING ->
-                    recurringGoal = new RecurringGoal((CreateRecurringGoalRequest) createGoalRequest, this);
-            case SCHEDULED ->
-                    scheduledGoal = new ScheduledGoal((CreateScheduledGoal) createGoalRequest, this);
-            case DEADLINE ->
-                    deadlineGoal = new DeadlineGoal((CreateDeadlineGoalRequest) createGoalRequest, null);
-            case REPEATING ->
-                    repeatingGoal = new RepeatingGoal((CreateRepeatingGoalRequest) createGoalRequest, this);
-            case STACKABLE ->
-                    stackableGoal = new StackableGoal((CreateStackableGoalRequest) createGoalRequest, this);
+    private void createOnGoalType(CreateGoalBehaviorRequest createGoalBehaviorRequest) {
+        switch (createGoalBehaviorRequest.getGoalType()) {
+            case RECURRING -> recurringGoal
+                    = new RecurringGoal((CreateRecurringGoalRequest) createGoalBehaviorRequest, this);
+            case SCHEDULED -> scheduledGoal
+                    = new ScheduledGoal((CreateScheduledGoal) createGoalBehaviorRequest, this);
+            case DEADLINE -> deadlineGoal
+                    = new DeadlineGoal((CreateDeadlineGoalRequest) createGoalBehaviorRequest, null);
+            case REPEATING -> repeatingGoal
+                    = new RepeatingGoal((CreateRepeatingGoalRequest) createGoalBehaviorRequest, this);
+            case STACKABLE -> stackableGoal
+                    = new StackableGoal((CreateStackableGoalRequest) createGoalBehaviorRequest, this);
             default -> throw new IllegalStateException("Tipo inválido");
         }
     }
