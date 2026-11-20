@@ -2,10 +2,17 @@ package com.bbjM.task.goal.domain;
 
 import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateScheduledGoal;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
+@Entity
+@Table(name = "goal_schedule")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@Builder
 public class ScheduledGoal {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

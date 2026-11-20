@@ -9,6 +9,6 @@ import java.time.Instant;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateScheduledGoal {
+public class CreateScheduledGoal extends CreateGoalRequest{
     private Instant momentToExecute;
 }

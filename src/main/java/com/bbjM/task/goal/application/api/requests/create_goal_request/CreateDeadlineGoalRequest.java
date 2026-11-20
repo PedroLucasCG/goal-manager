@@ -9,6 +9,6 @@ import java.time.Instant;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateDeadlineGoalRequest {
+public class CreateDeadlineGoalRequest extends CreateGoalRequest{
     private Instant deadline;
 }

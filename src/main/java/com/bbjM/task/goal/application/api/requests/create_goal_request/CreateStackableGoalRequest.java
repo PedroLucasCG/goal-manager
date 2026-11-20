@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateStackableGoalRequest {
+public class CreateStackableGoalRequest extends CreateGoalRequest{
     private Long quantity;
 }

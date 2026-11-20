@@ -1,7 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateGoalRequest;
-import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateRecurringGoalRequest;
+import com.bbjM.task.goal.application.api.requests.create_goal_request.*;
 import com.bbjM.task.goal.application.api.requests.patch_goal_request.PatchGoalRequest;
 import com.bbjM.task.goal.application.api.requests.patch_goal_request.PatchRecurringGoalRequest;
 import com.bbjM.task.handler.APIException;
@@ -53,6 +52,18 @@ public class BaseGoal extends Auditable implements Goal {
     @OneToOne(mappedBy = "goal", cascade = CascadeType.ALL, orphanRemoval = true)
     private RecurringGoal recurringGoal;
 
+    @OneToOne(mappedBy = "goal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ScheduledGoal scheduledGoal;
+
+    @OneToOne(mappedBy = "goal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private DeadlineGoal deadlineGoal;
+
+    @OneToOne(mappedBy = "goal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private StackableGoal stackableGoal;
+
+    @OneToOne(mappedBy = "goal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private RepeatingGoal repeatingGoal;
+
     public BaseGoal(CreateGoalRequest createGoalRequest, Credential owner, BaseGoal parentGoal) {
         this.title = createGoalRequest.getTitle();
         this.description = createGoalRequest.getDescription();
@@ -71,9 +82,27 @@ public class BaseGoal extends Auditable implements Goal {
                 goalType = GoalType.RECURRING;
                 recurringGoal = new RecurringGoal((CreateRecurringGoalRequest) createGoalRequest, this);
                 break;
-            default:
+            case SCHEDULED:
+                goalType = GoalType.SCHEDULED;
+                scheduledGoal = new ScheduledGoal((CreateScheduledGoal) createGoalRequest, this);
+                break;
+            case DEADLINE:
+                goalType = GoalType.DEADLINE;
+                deadlineGoal = new DeadlineGoal((CreateDeadlineGoalRequest) createGoalRequest, null);
+                break;
+            case REPEATING:
+                goalType = GoalType.REPEATING;
+                repeatingGoal = new RepeatingGoal((CreateRepeatingGoalRequest) createGoalRequest, this);
+                break;
+            case STACKABLE:
+                goalType = GoalType.STACKABLE;
+                stackableGoal = new StackableGoal((CreateStackableGoalRequest) createGoalRequest, this);
+                break;
+            case SIMPLE:
                 goalType = GoalType.SIMPLE;
                 break;
+            default:
+                throw new IllegalStateException("Tipo inválido");
         }
     }
 

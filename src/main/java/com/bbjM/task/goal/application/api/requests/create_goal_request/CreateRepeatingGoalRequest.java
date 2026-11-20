@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateRepeatingGoalRequest {
+public class CreateRepeatingGoalRequest extends CreateGoalRequest{
     private Long repeationCounter;
     private Long repeationLimit;
 }
