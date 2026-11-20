@@ -1,4 +1,4 @@
-package com.bbjM.task.goal.application.api.requests;
+package com.bbjM.task.goal.application.api.requests.create_goal_request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +9,6 @@ import java.time.Instant;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeadlineGoalRequest {
-    private Instant deadline;
+public class CreateScheduledGoal {
+    private Instant momentToExecute;
 }

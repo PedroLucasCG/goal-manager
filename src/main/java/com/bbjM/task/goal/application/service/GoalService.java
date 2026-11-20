@@ -1,8 +1,8 @@
 package com.bbjM.task.goal.application.service;
 
-import com.bbjM.task.goal.application.api.requests.CreateGoalRequest;
+import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateGoalRequest;
 import com.bbjM.task.goal.application.api.requests.GoalFilterRequest;
-import com.bbjM.task.goal.application.api.requests.PatchGoalRequest;
+import com.bbjM.task.goal.application.api.requests.patch_goal_request.PatchGoalRequest;
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
 import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
 import com.bbjM.task.goal.domain.BaseGoal;

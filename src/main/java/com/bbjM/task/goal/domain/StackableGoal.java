@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.application.api.requests.StackableGoalRequest;
+import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateStackableGoalRequest;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -14,8 +14,8 @@ public class StackableGoal {
     @Column(nullable = false)
     private Long quantity;
 
-    public StackableGoal(StackableGoalRequest stackableGoalRequest, BaseGoal baseGoal) {
+    public StackableGoal(CreateStackableGoalRequest createStackableGoalRequest, BaseGoal baseGoal) {
         this.goal = baseGoal;
-        this.quantity = stackableGoalRequest.getQuantity();
+        this.quantity = createStackableGoalRequest.getQuantity();
     }
 }

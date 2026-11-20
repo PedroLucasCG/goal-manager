@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.application.api.requests.CreateScheduledGoal;
+import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateScheduledGoal;
 import jakarta.persistence.*;
 
 import java.time.Instant;

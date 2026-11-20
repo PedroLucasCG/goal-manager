@@ -1,6 +1,5 @@
-package com.bbjM.task.goal.application.api.requests;
+package com.bbjM.task.goal.application.api.requests.create_goal_request;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RepeatingGoalRequest {
+public class CreateRepeatingGoalRequest {
     private Long repeationCounter;
     private Long repeationLimit;
 }
