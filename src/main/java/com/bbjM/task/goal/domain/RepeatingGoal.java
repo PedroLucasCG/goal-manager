@@ -19,13 +19,13 @@ public class RepeatingGoal {
     @OneToOne(fetch = FetchType.LAZY)
     private BaseGoal goal;
     @Column(nullable = false)
-    private Long repeationCounter;
+    private Long repetitionCounter;
     @Column(nullable = false)
-    private Long repeationLimit;
+    private Long repetitionLimit;
 
     public RepeatingGoal(CreateRepeatingGoalRequest createRepeatingGoalRequest, BaseGoal baseGoal) {
         this.goal = baseGoal;
-        this.repeationCounter = createRepeatingGoalRequest.getRepeationCounter();
-        this.repeationLimit = createRepeatingGoalRequest.getRepeationLimit();
+        this.repetitionCounter = createRepeatingGoalRequest.getRepeationCounter();
+        this.repetitionLimit = createRepeatingGoalRequest.getRepeationLimit();
     }
 }

@@ -17,6 +17,6 @@ public class RecurringGoalResponse extends GoalResponse {
 
     public RecurringGoalResponse(RecurringGoal recurringGoal) {
         this.interval = recurringGoal.getInterval();
-        this.timeToReschedule = recurringGoal.getRescheduleDateTime();
+        this.timeToReschedule = recurringGoal.getRecurrenceMoment();
     }
 }

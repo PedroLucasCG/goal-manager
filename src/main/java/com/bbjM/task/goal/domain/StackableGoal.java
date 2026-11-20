@@ -20,9 +20,12 @@ public class StackableGoal {
     private BaseGoal goal;
     @Column(nullable = false)
     private Long quantity;
+    @Column(nullable = false)
+    private Long stackLimit;
 
     public StackableGoal(CreateStackableGoalRequest createStackableGoalRequest, BaseGoal baseGoal) {
         this.goal = baseGoal;
         this.quantity = createStackableGoalRequest.getQuantity();
+        this.stackLimit = createStackableGoalRequest.getStackLimit();
     }
 }

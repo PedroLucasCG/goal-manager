@@ -1,0 +1,20 @@
+package com.bbjM.task.goal.application.api.responses;
+
+import com.bbjM.task.goal.domain.ScheduledGoal;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ScheduledGoalResponse {
+    private Instant momentToExecute;
+
+    public ScheduledGoalResponse(ScheduledGoal scheduledGoal) {
+        this.momentToExecute = scheduledGoal.getMomentToExecute();
+    }
+}

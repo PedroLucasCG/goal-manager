@@ -1,8 +1,6 @@
 package com.bbjM.task.goal.application.api.responses;
 
-import com.bbjM.task.goal.domain.BaseGoal;
-import com.bbjM.task.goal.domain.GoalType;
-import com.bbjM.task.goal.domain.Status;
+import com.bbjM.task.goal.domain.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,9 +20,13 @@ public class GoalResponse {
     private String color;
     private GoalType goalType;
     private UUID parentGoalId;
-    private RecurringGoalResponse recurrenceDetails;
     private Status status;
     private Long level;
+    private RecurringGoalResponse recurrenceDetails;
+    private DeadlineGoalResponse deadlineDetails;
+    private RepeatingGoalResponse repetitionDetails;
+    private ScheduledGoalResponse scheduleDetails;
+    private StackableGoalResponse stackDetails;
 
     public GoalResponse(BaseGoal goal) {
         this.id = goal.getId();
@@ -40,6 +42,18 @@ public class GoalResponse {
         }
         this.recurrenceDetails = goal.getRecurringGoal() != null
                 ? new RecurringGoalResponse(goal.getRecurringGoal())
+                : null;
+        this.deadlineDetails = goal.getDeadlineGoal() != null
+                ? new DeadlineGoalResponse(goal.getDeadlineGoal())
+                : null;
+        this.repetitionDetails = goal.getRepeatingGoal() != null
+                ? new RepeatingGoalResponse(goal.getRepeatingGoal())
+                : null;
+        this.scheduleDetails = goal.getScheduledGoal() != null
+                ? new ScheduledGoalResponse(goal.getScheduledGoal())
+                : null;
+        this.stackDetails = goal.getStackableGoal() != null
+                ? new StackableGoalResponse(goal.getStackableGoal())
                 : null;
     }
 }

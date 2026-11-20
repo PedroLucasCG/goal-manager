@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateStackableGoalRequest extends CreateGoalRequest{
     private Long quantity;
+    private Long stackLimit;
 }
