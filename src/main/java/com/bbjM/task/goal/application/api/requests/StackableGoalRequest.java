@@ -1,0 +1,12 @@
+package com.bbjM.task.goal.application.api.requests;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class StackableGoalRequest {
+    private Long quantity;
+}

@@ -25,21 +25,20 @@ public class RecurringGoal {
     @Column(nullable = false)
     private Duration interval;
     @Column(nullable = false)
-    private LocalDateTime rescheduleDateTime;
+    private LocalDateTime recurrenceMoment;
 
     public RecurringGoal(CreateRecurringGoalRequest createGoalRequest, BaseGoal baseGoal) {
-        this.goal = baseGoal;
-        this.interval = createGoalRequest.getDuration();
-        this.rescheduleDateTime = LocalDateTime.now();
-    }
-
-    public void nextCycle() {
-        rescheduleDateTime.plus(interval);
+        goal = baseGoal;
+        interval = createGoalRequest.getDuration();
+        recurrenceMoment = LocalDateTime.now().plus(interval);
     }
 
     public void applyPatch(PatchRecurringGoalRequest patchRecurringGoalRequest) {
-        if (patchRecurringGoalRequest.getInterval() != null) this.interval = patchRecurringGoalRequest.getInterval();
-        if (patchRecurringGoalRequest.getRescheduleTime() != null)
-            this.rescheduleDateTime = patchRecurringGoalRequest.getRescheduleTime();
+        if (patchRecurringGoalRequest.getInterval() != null) interval = patchRecurringGoalRequest.getInterval();
+    }
+
+    public void nextCycle() {
+        recurrenceMoment = LocalDateTime.now().plus(interval);
+        goal.schedule(recurrenceMoment);
     }
 }
