@@ -36,7 +36,7 @@ public class BaseGoal extends Auditable implements Goal {
     private Long level;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private GoalType goalType;
+    private List<GoalType> goalType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")

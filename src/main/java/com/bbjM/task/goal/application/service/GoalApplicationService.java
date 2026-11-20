@@ -7,6 +7,7 @@ import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateGoa
 import com.bbjM.task.goal.application.api.responses.GoalResponse;
 import com.bbjM.task.goal.domain.BaseGoal;
 import com.bbjM.task.goal.domain.Goal;
+import com.bbjM.task.goal.domain.GoalType;
 import com.bbjM.task.goal.domain.decorator.*;
 import com.bbjM.task.goal.infra.GoalRepository;
 import com.bbjM.task.handler.APIException;
@@ -78,7 +79,7 @@ public class GoalApplicationService implements GoalService {
     public BaseGoal accomplishGoal(String email, UUID goalId) {
         log.info("[start] GoalApplicationService - accomplishGoal");
         BaseGoal goalToAccomplish = getGoalById(goalId, email);
-        Goal goalDecorated = decorateGoalByType(goalToAccomplish);
+        Goal goalDecorated = Goal.decorateGoalByType(goalToAccomplish);
         goalDecorated.accomplish();
         BaseGoal accomplishedGoal = goalRepository.saveGoal(goalToAccomplish);
         log.debug("[finish] GoalApplicationService - accomplishGoal");
@@ -93,20 +94,5 @@ public class GoalApplicationService implements GoalService {
                 .orElseThrow(() -> new APIException(ErrorCode.GOAL_NOT_FOUND));
         log.debug("[finish] GoalApplicationService - getGoalById");
         return goal;
-    }
-
-    private Goal decorateGoalByType(BaseGoal goal) {
-        log.info("[start] GoalApplicationService - makeGoalFromType");
-        Goal goalWrapped = switch (goal.getGoalType()) {
-            case RECURRING -> new RecurringGoalDecorator(goal);
-            case DEADLINE -> new DeadlineGoalDecorator(goal);
-            case REPEATING -> new RepeatingGoalDecorator(goal);
-            case SCHEDULED -> new ScheduleGoalDecorator(goal);
-            case STACKABLE -> new StackableGoalDecorator(goal);
-            case SIMPLE -> goal;
-            default -> throw new IllegalStateException("Unexpected value: " + goal.getGoalType());
-        };
-        log.debug("[finish] GoalApplicationService - makeGoalFromType");
-        return goalWrapped;
     }
 }

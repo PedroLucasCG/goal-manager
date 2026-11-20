@@ -22,6 +22,6 @@ public class CreateGoalRequest {
     private String description;
     private String color;
     private UUID parentGoal;
-    private GoalType goalType;
+    private List<GoalType> goalType;
     private List<CreateGoalBehaviorRequest> behaviors;
 }
