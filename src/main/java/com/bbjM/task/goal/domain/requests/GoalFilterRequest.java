@@ -1,4 +1,4 @@
-package com.bbjM.task.goal.application.api.requests;
+package com.bbjM.task.goal.domain.requests;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

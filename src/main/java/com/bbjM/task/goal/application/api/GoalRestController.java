@@ -1,10 +1,10 @@
 package com.bbjM.task.goal.application.api;
 
-import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateGoalRequest;
-import com.bbjM.task.goal.application.api.requests.GoalFilterRequest;
-import com.bbjM.task.goal.application.api.requests.patch_goal_request.PatchGoalRequest;
-import com.bbjM.task.goal.application.api.responses.GoalResponse;
-import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
+import com.bbjM.task.goal.domain.requests.create_goal_request.CreateGoalRequest;
+import com.bbjM.task.goal.domain.requests.GoalFilterRequest;
+import com.bbjM.task.goal.domain.requests.patch_goal_request.PatchGoalRequest;
+import com.bbjM.task.goal.domain.responses.GoalResponse;
+import com.bbjM.task.goal.domain.responses.GoalTreeResponse;
 import com.bbjM.task.goal.application.service.GoalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

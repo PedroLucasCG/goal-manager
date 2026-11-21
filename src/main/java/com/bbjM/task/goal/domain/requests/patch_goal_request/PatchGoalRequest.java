@@ -1,4 +1,4 @@
-package com.bbjM.task.goal.application.api.requests.patch_goal_request;
+package com.bbjM.task.goal.domain.requests.patch_goal_request;
 
 import com.bbjM.task.goal.domain.GoalType;
 import com.fasterxml.jackson.annotation.JsonSubTypes;

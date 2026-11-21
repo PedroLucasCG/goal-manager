@@ -1,4 +1,4 @@
-package com.bbjM.task.goal.application.api.requests.create_goal_request;
+package com.bbjM.task.goal.domain.requests.create_goal_request;
 
 import com.bbjM.task.goal.domain.GoalType;
 import jakarta.validation.constraints.NotNull;

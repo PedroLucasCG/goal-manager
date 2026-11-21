@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateDeadlineGoalRequest;
+import com.bbjM.task.goal.domain.requests.create_goal_request.CreateDeadlineGoalRequest;
 import jakarta.persistence.*;
 import lombok.*;
 

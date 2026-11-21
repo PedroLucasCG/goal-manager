@@ -1,10 +1,10 @@
 package com.bbjM.task.goal.application.api;
 
-import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateGoalRequest;
-import com.bbjM.task.goal.application.api.requests.GoalFilterRequest;
-import com.bbjM.task.goal.application.api.requests.patch_goal_request.PatchGoalRequest;
-import com.bbjM.task.goal.application.api.responses.GoalResponse;
-import com.bbjM.task.goal.application.api.responses.GoalTreeResponse;
+import com.bbjM.task.goal.domain.requests.create_goal_request.CreateGoalRequest;
+import com.bbjM.task.goal.domain.requests.GoalFilterRequest;
+import com.bbjM.task.goal.domain.requests.patch_goal_request.PatchGoalRequest;
+import com.bbjM.task.goal.domain.responses.GoalResponse;
+import com.bbjM.task.goal.domain.responses.GoalTreeResponse;
 import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;

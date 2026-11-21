@@ -1,8 +1,8 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.application.api.requests.create_goal_request.*;
-import com.bbjM.task.goal.application.api.requests.patch_goal_request.PatchGoalRequest;
-import com.bbjM.task.goal.application.api.requests.patch_goal_request.PatchRecurringGoalRequest;
+import com.bbjM.task.goal.domain.requests.create_goal_request.*;
+import com.bbjM.task.goal.domain.requests.patch_goal_request.PatchGoalRequest;
+import com.bbjM.task.goal.domain.requests.patch_goal_request.PatchRecurringGoalRequest;
 import com.bbjM.task.handler.APIException;
 import com.bbjM.task.handler.ErrorCode;
 import com.bbjM.task.shared.Auditable;

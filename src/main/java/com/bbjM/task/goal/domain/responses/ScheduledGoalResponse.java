@@ -1,4 +1,4 @@
-package com.bbjM.task.goal.application.api.responses;
+package com.bbjM.task.goal.domain.responses;
 
 import com.bbjM.task.goal.domain.ScheduledGoal;
 import lombok.AllArgsConstructor;

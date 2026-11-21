@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateStackableGoalRequest;
+import com.bbjM.task.goal.domain.requests.create_goal_request.CreateStackableGoalRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
