@@ -38,6 +38,8 @@ public class RecurringGoal {
     }
 
     public void nextCycle() {
+        if(recurrenceMoment.isAfter(LocalDateTime.now()))
+            throw new IllegalStateException("Não é possível começar o próximo ciclo!");
         recurrenceMoment = LocalDateTime.now().plus(interval);
         goal.schedule(recurrenceMoment);
     }
