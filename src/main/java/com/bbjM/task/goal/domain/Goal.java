@@ -18,7 +18,7 @@ public interface Goal {
             case RECURRING -> new RecurringGoalDecorator(goal);
             case DEADLINE -> new DeadlineGoalDecorator(goal);
             case REPEATING -> new RepeatingGoalDecorator(goal);
-            case SCHEDULED -> new ScheduleGoalDecorator(goal);
+            case SCHEDULED -> new ScheduledGoalDecorator(goal);
             case STACKABLE -> new StackableGoalDecorator(goal);
             case SIMPLE -> goal;
             default -> throw new IllegalStateException("Unexpected value: " + goalType);
