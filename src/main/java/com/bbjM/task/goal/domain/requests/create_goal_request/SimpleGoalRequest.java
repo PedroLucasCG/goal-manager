@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreateSimpleGoalRequest implements CreateGoalBehaviorRequest{
+public class SimpleGoalRequest implements GoalBehaviorRequest {
 
     @Override
     @Schema(example = "SIMPLE")

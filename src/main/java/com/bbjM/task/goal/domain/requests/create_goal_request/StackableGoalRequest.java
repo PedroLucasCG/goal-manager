@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateRepeatingGoalRequest implements CreateGoalBehaviorRequest{
-    private Long repetitionCounter;
-    private Long repetitionLimit;
+public class StackableGoalRequest implements GoalBehaviorRequest {
+    private Long quantity;
+    private Long stackLimit;
 
     @Override
-    @Schema(example = "REPEATING")
+    @Schema(example = "STACKABLE")
     public GoalType getGoalType() {
-        return GoalType.REPEATING;
+        return GoalType.STACKABLE;
     }
 }

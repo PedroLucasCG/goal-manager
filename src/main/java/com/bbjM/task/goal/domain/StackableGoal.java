@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.domain.requests.create_goal_request.CreateStackableGoalRequest;
+import com.bbjM.task.goal.domain.requests.create_goal_request.StackableGoalRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +23,7 @@ public class StackableGoal {
     @Column(nullable = false)
     private Long stackLimit;
 
-    public StackableGoal(CreateStackableGoalRequest createStackableGoalRequest, BaseGoal baseGoal) {
+    public StackableGoal(StackableGoalRequest createStackableGoalRequest, BaseGoal baseGoal) {
         this.goal = baseGoal;
         this.quantity = createStackableGoalRequest.getQuantity();
         this.stackLimit = createStackableGoalRequest.getStackLimit();

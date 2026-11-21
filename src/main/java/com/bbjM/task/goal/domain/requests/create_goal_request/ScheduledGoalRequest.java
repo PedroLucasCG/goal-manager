@@ -11,12 +11,12 @@ import java.time.Instant;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateDeadlineGoalRequest implements CreateGoalBehaviorRequest{
-    private Instant deadline;
+public class ScheduledGoalRequest implements GoalBehaviorRequest {
+    private Instant momentToExecute;
 
     @Override
-    @Schema(example = "DEADLINE")
+    @Schema(example = "SCHEDULED")
     public GoalType getGoalType() {
-        return GoalType.DEADLINE;
+        return GoalType.SCHEDULED;
     }
 }

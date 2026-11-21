@@ -12,7 +12,7 @@ import java.time.Duration;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateRecurringGoalRequest implements CreateGoalBehaviorRequest{
+public class RecurringGoalRequest implements GoalBehaviorRequest {
     @NotNull(message = "A duração é obrigatória para objetivos recorrentes")
     private Duration duration;
 

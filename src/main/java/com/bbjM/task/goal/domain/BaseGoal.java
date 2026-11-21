@@ -77,18 +77,18 @@ public class BaseGoal extends Auditable implements Goal {
         createGoalRequest.getBehaviors().forEach(this::createOnGoalType);
     }
 
-    private void createOnGoalType(CreateGoalBehaviorRequest createGoalBehaviorRequest) {
-        switch (createGoalBehaviorRequest.getGoalType()) {
+    private void createOnGoalType(GoalBehaviorRequest goalBehaviorRequest) {
+        switch (goalBehaviorRequest.getGoalType()) {
             case RECURRING -> recurringGoal
-                    = new RecurringGoal((CreateRecurringGoalRequest) createGoalBehaviorRequest, this);
+                    = new RecurringGoal((RecurringGoalRequest) goalBehaviorRequest, this);
             case SCHEDULED -> scheduledGoal
-                    = new ScheduledGoal((CreateScheduledGoalRequest) createGoalBehaviorRequest, this);
+                    = new ScheduledGoal((ScheduledGoalRequest) goalBehaviorRequest, this);
             case DEADLINE -> deadlineGoal
-                    = new DeadlineGoal((CreateDeadlineGoalRequest) createGoalBehaviorRequest, null);
+                    = new DeadlineGoal((DeadlineGoalRequest) goalBehaviorRequest, null);
             case REPEATING -> repeatingGoal
-                    = new RepeatingGoal((CreateRepeatingGoalRequest) createGoalBehaviorRequest, this);
+                    = new RepeatingGoal((RepeatingGoalRequest) goalBehaviorRequest, this);
             case STACKABLE -> stackableGoal
-                    = new StackableGoal((CreateStackableGoalRequest) createGoalBehaviorRequest, this);
+                    = new StackableGoal((StackableGoalRequest) goalBehaviorRequest, this);
             default -> throw new IllegalStateException("Tipo inválido");
         }
     }
