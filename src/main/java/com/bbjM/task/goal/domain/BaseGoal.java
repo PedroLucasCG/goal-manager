@@ -74,10 +74,10 @@ public class BaseGoal extends Auditable implements Goal {
         this.goalTypes = createGoalRequest.getGoalTypes();
         this.level = 0L;
         if(parentGoal != null) this.level = parentGoal.getLevel() + 1L;
-        createGoalRequest.getBehaviors().forEach(this::createOnGoalType);
+        createGoalRequest.getBehaviors().forEach(this::getGoalBehaviors);
     }
 
-    private void createOnGoalType(GoalBehaviorRequest goalBehaviorRequest) {
+    private void getGoalBehaviors(GoalBehaviorRequest goalBehaviorRequest) {
         switch (goalBehaviorRequest.getGoalType()) {
             case RECURRING -> recurringGoal
                     = new RecurringGoal((RecurringGoalRequest) goalBehaviorRequest, this);
