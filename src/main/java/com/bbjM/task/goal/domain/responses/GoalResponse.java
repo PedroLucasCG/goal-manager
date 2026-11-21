@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -19,7 +20,7 @@ public class GoalResponse {
     private String title;
     private String description;
     private String color;
-    private List<GoalType> goalType;
+    private Set<GoalType> goalType;
     private UUID parentGoalId;
     private Status status;
     private Long level;

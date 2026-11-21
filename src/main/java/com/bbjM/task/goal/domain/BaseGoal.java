@@ -10,6 +10,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -37,7 +38,7 @@ public class BaseGoal extends Auditable implements Goal {
     private Long level;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private List<GoalType> goalTypes;
+    private Set<GoalType> goalTypes;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
@@ -72,7 +73,7 @@ public class BaseGoal extends Auditable implements Goal {
         this.parentGoal = parentGoal;
         this.owner = owner;
         this.status = Status.IN_PROGRESS;
-        this.goalTypes = createGoalRequest.getGoalTypes();
+        this.goalTypes = Set.copyOf(createGoalRequest.getGoalTypes());
         this.level = 0L;
         if(parentGoal != null) this.level = parentGoal.getLevel() + 1L;
         createGoalRequest.getBehaviors().forEach(this::setGoalBehaviors);
@@ -90,6 +91,7 @@ public class BaseGoal extends Auditable implements Goal {
         if (patchGoalRequest.getDescription() != null) this.description = patchGoalRequest.getDescription();
         if (patchGoalRequest.getColor() != null) this.color = patchGoalRequest.getColor();
 
+        goalTypes.addAll(patchGoalRequest.getGoalTypes());
         patchGoalRequest.getBehaviors().forEach(this::patchGoalBehaviors);
     }
 
