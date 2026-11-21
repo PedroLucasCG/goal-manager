@@ -1,4 +1,4 @@
-package com.bbjM.task.goal.domain.decorator;
+package com.bbjM.task.goal.domain.decorators;
 
 import com.bbjM.task.goal.domain.BaseGoal;
 import com.bbjM.task.goal.domain.Goal;

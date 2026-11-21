@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.domain.decorator.*;
+import com.bbjM.task.goal.domain.decorators.*;
 
 public interface Goal {
     void accomplish();
