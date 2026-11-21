@@ -35,7 +35,7 @@ public class GoalResponse {
         this.description = goal.getDescription();
         this.color = goal.getColor();
         this.parentGoalId = null;
-        this.goalType = goal.getGoalType();
+        this.goalType = goal.getGoalTypes();
         this.level = goal.getLevel();
         this.status = goal.getStatus();
         if (Objects.nonNull(goal.getParentGoal())) {

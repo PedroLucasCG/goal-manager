@@ -36,7 +36,7 @@ public class BaseGoal extends Auditable implements Goal {
     private Long level;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private List<GoalType> goalType;
+    private List<GoalType> goalTypes;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
@@ -71,7 +71,7 @@ public class BaseGoal extends Auditable implements Goal {
         this.parentGoal = parentGoal;
         this.owner = owner;
         this.status = Status.IN_PROGRESS;
-        this.goalType = createGoalRequest.getGoalType();
+        this.goalTypes = createGoalRequest.getGoalTypes();
         this.level = 0L;
         if(parentGoal != null) this.level = parentGoal.getLevel() + 1L;
         createGoalRequest.getBehaviors().forEach(this::createOnGoalType);

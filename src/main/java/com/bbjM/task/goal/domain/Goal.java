@@ -7,7 +7,7 @@ public interface Goal {
 
     static Goal decorateGoalByType(BaseGoal goal) {
         Goal goalWrapped = goal;
-        for (GoalType goalType : goal.getGoalType()) {
+        for (GoalType goalType : goal.getGoalTypes()) {
             goalWrapped = getGoalWrapped(goalType, goalWrapped);
         }
         return goalWrapped;
