@@ -12,7 +12,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = CreateSimpleGoalRequest.class, name = "SIMPLE"),
-        @JsonSubTypes.Type(value = CreateRecurringGoalRequest.class, name = "RECURRING")
+        @JsonSubTypes.Type(value = CreateRecurringGoalRequest.class, name = "RECURRING"),
+        @JsonSubTypes.Type(value = CreateScheduledGoalRequest.class, name = "SCHEDULED"),
+        @JsonSubTypes.Type(value = CreateStackableGoalRequest.class, name = "STACKABLE"),
+        @JsonSubTypes.Type(value = CreateRepeatingGoalRequest.class, name = "REPEATING"),
+        @JsonSubTypes.Type(value = CreateDeadlineGoalRequest.class, name = "DEADLINE")
 })
 public interface CreateGoalBehaviorRequest {
     GoalType getGoalType();

@@ -82,7 +82,7 @@ public class BaseGoal extends Auditable implements Goal {
             case RECURRING -> recurringGoal
                     = new RecurringGoal((CreateRecurringGoalRequest) createGoalBehaviorRequest, this);
             case SCHEDULED -> scheduledGoal
-                    = new ScheduledGoal((CreateScheduledGoal) createGoalBehaviorRequest, this);
+                    = new ScheduledGoal((CreateScheduledGoalRequest) createGoalBehaviorRequest, this);
             case DEADLINE -> deadlineGoal
                     = new DeadlineGoal((CreateDeadlineGoalRequest) createGoalBehaviorRequest, null);
             case REPEATING -> repeatingGoal
@@ -107,9 +107,6 @@ public class BaseGoal extends Auditable implements Goal {
     }
 
     public void updateGoalInfo(PatchGoalRequest patchGoalRequest) {
-        if (patchGoalRequest.getGoalType() != this.goalType) {
-            throw new APIException(ErrorCode.GOAL_TYPE_MISMATCH);
-        }
         if (patchGoalRequest.getTitle() != null) this.title = patchGoalRequest.getTitle();
         if (patchGoalRequest.getDescription() != null) this.description = patchGoalRequest.getDescription();
         if (patchGoalRequest.getColor() != null) this.color = patchGoalRequest.getColor();

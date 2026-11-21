@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,5 +28,5 @@ public class PatchGoalRequest {
     private String description;
     private String color;
     @NotNull(message = "O tipo de objetivo é obrigatório!")
-    private GoalType goalType;
+    private List<GoalType> goalType;
 }

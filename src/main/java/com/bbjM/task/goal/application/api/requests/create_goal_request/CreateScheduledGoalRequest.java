@@ -10,7 +10,7 @@ import java.time.Instant;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateScheduledGoal implements CreateGoalBehaviorRequest{
+public class CreateScheduledGoalRequest implements CreateGoalBehaviorRequest{
     private Instant momentToExecute;
 
     public GoalType getGoalType() {

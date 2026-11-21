@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateScheduledGoal;
+import com.bbjM.task.goal.application.api.requests.create_goal_request.CreateScheduledGoalRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,8 +22,8 @@ public class ScheduledGoal {
     @Column(nullable = false)
     private Instant momentToExecute;
 
-    public ScheduledGoal(CreateScheduledGoal createScheduledGoal, BaseGoal baseGoal) {
+    public ScheduledGoal(CreateScheduledGoalRequest createScheduledGoalRequest, BaseGoal baseGoal) {
         this.goal = baseGoal;
-        this.momentToExecute = createScheduledGoal.getMomentToExecute();
+        this.momentToExecute = createScheduledGoalRequest.getMomentToExecute();
     }
 }
