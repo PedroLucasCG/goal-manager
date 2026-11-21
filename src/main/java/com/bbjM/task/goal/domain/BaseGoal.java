@@ -112,7 +112,9 @@ public class BaseGoal extends Auditable implements Goal {
                     = new RepeatingGoal((RepeatingCreateGoalRequest) createGoalBehaviorRequest, this);
             case STACKABLE -> stackableGoal
                     = new StackableGoal((StackableCreateGoalRequest) createGoalBehaviorRequest, this);
-            default -> throw new IllegalStateException("Tipo inválido");
+            case SIMPLE -> List.of();
+            default -> throw new IllegalStateException
+                    ("Tipo inválido" + createGoalBehaviorRequest.getGoalType().toString());
         }
     }
 
