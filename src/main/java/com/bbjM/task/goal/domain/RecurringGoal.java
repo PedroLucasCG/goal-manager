@@ -1,7 +1,8 @@
 package com.bbjM.task.goal.domain;
 
+import com.bbjM.task.goal.domain.requests.create_goal_request.CreateGoalBehaviorRequest;
 import com.bbjM.task.goal.domain.requests.create_goal_request.RecurringCreateGoalRequest;
-import com.bbjM.task.goal.domain.requests.patch_goal_request.PatchRecurringGoalRequest;
+import com.bbjM.task.goal.domain.requests.patch_goal_request.RecurringPatchGoalRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,8 +34,12 @@ public class RecurringGoal {
         recurrenceMoment = LocalDateTime.now().plus(interval);
     }
 
-    public void applyPatch(PatchRecurringGoalRequest patchRecurringGoalRequest) {
-        if (patchRecurringGoalRequest.getInterval() != null) interval = patchRecurringGoalRequest.getInterval();
+    public RecurringGoal(RecurringPatchGoalRequest recurringPatchGoalRequest) {
+        this.interval = recurringPatchGoalRequest.getInterval();
+    }
+
+    public void applyPatch(RecurringPatchGoalRequest recurringPatchGoalRequest) {
+        if (recurringPatchGoalRequest.getInterval() != null) interval = recurringPatchGoalRequest.getInterval();
     }
 
     public void nextCycle() {
@@ -42,5 +47,9 @@ public class RecurringGoal {
             throw new IllegalStateException("Não é possível começar o próximo ciclo!");
         recurrenceMoment = LocalDateTime.now().plus(interval);
         goal.schedule(recurrenceMoment);
+    }
+
+    public static CreateGoalBehaviorRequest fromPatch(RecurringPatchGoalRequest recurringPatchGoalRequest) {
+        return new RecurringCreateGoalRequest(new RecurringGoal(recurringPatchGoalRequest));
     }
 }

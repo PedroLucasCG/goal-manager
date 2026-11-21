@@ -1,5 +1,6 @@
 package com.bbjM.task.goal.domain.requests.create_goal_request;
 
+import com.bbjM.task.goal.domain.DeadlineGoal;
 import com.bbjM.task.goal.domain.GoalType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,10 @@ import java.time.Instant;
 @AllArgsConstructor
 public class DeadlineCreateGoalRequest implements CreateGoalBehaviorRequest {
     private Instant deadline;
+
+    public DeadlineCreateGoalRequest(DeadlineGoal deadlineGoal) {
+        this.deadline = deadlineGoal.getDeadline();
+    }
 
     @Override
     @Schema(example = "DEADLINE")

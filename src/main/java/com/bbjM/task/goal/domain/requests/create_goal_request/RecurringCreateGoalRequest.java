@@ -1,6 +1,7 @@
 package com.bbjM.task.goal.domain.requests.create_goal_request;
 
 import com.bbjM.task.goal.domain.GoalType;
+import com.bbjM.task.goal.domain.RecurringGoal;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,10 @@ import java.time.Duration;
 public class RecurringCreateGoalRequest implements CreateGoalBehaviorRequest {
     @NotNull(message = "A duração é obrigatória para objetivos recorrentes")
     private Duration duration;
+
+    public RecurringCreateGoalRequest(RecurringGoal recurringGoal) {
+        this.duration = recurringGoal.getInterval();
+    }
 
     @Override
     @Schema(example = "RECURRING")

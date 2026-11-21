@@ -1,6 +1,9 @@
 package com.bbjM.task.goal.domain;
 
+import com.bbjM.task.goal.domain.requests.create_goal_request.CreateGoalBehaviorRequest;
+import com.bbjM.task.goal.domain.requests.create_goal_request.DeadlineCreateGoalRequest;
 import com.bbjM.task.goal.domain.requests.create_goal_request.RepeatingCreateGoalRequest;
+import com.bbjM.task.goal.domain.requests.patch_goal_request.RepeatingPatchGoalRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,5 +30,19 @@ public class RepeatingGoal {
         this.goal = baseGoal;
         this.repetitionCounter = createRepeatingGoalRequest.getRepetitionCounter();
         this.repetitionLimit = createRepeatingGoalRequest.getRepetitionLimit();
+    }
+
+    public RepeatingGoal(RepeatingPatchGoalRequest repeatingPatchGoalRequest) {
+        this.repetitionCounter = repeatingPatchGoalRequest.getRepetitionCounter();
+        this.repetitionLimit = repeatingPatchGoalRequest.getRepetitionLimit();
+    }
+
+    public void applyPatch(RepeatingPatchGoalRequest patchGoalBehaviorRequest) {
+        this.repetitionCounter = patchGoalBehaviorRequest.getRepetitionCounter();
+        this.repetitionLimit = patchGoalBehaviorRequest.getRepetitionLimit();
+    }
+
+    public static CreateGoalBehaviorRequest fromPatch(RepeatingPatchGoalRequest repeatingPatchGoalRequest) {
+        return new RepeatingCreateGoalRequest(new RepeatingGoal(repeatingPatchGoalRequest));
     }
 }

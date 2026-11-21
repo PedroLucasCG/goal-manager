@@ -2,10 +2,7 @@ package com.bbjM.task.goal.domain;
 
 import com.bbjM.task.goal.domain.requests.create_goal_request.CreateGoalBehaviorRequest;
 import com.bbjM.task.goal.domain.requests.create_goal_request.*;
-import com.bbjM.task.goal.domain.requests.patch_goal_request.PatchGoalRequest;
-import com.bbjM.task.goal.domain.requests.patch_goal_request.PatchRecurringGoalRequest;
-import com.bbjM.task.handler.APIException;
-import com.bbjM.task.handler.ErrorCode;
+import com.bbjM.task.goal.domain.requests.patch_goal_request.*;
 import com.bbjM.task.shared.Auditable;
 import com.bbjM.task.user.domain.Credential;
 import jakarta.persistence.*;
@@ -14,6 +11,9 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -75,23 +75,7 @@ public class BaseGoal extends Auditable implements Goal {
         this.goalTypes = createGoalRequest.getGoalTypes();
         this.level = 0L;
         if(parentGoal != null) this.level = parentGoal.getLevel() + 1L;
-        createGoalRequest.getBehaviors().forEach(this::getGoalBehaviors);
-    }
-
-    private void getGoalBehaviors(CreateGoalBehaviorRequest createGoalBehaviorRequest) {
-        switch (createGoalBehaviorRequest.getGoalType()) {
-            case RECURRING -> recurringGoal
-                    = new RecurringGoal((RecurringCreateGoalRequest) createGoalBehaviorRequest, this);
-            case SCHEDULED -> scheduledGoal
-                    = new ScheduledGoal((ScheduledCreateGoalRequest) createGoalBehaviorRequest, this);
-            case DEADLINE -> deadlineGoal
-                    = new DeadlineGoal((DeadlineCreateGoalRequest) createGoalBehaviorRequest, null);
-            case REPEATING -> repeatingGoal
-                    = new RepeatingGoal((RepeatingCreateGoalRequest) createGoalBehaviorRequest, this);
-            case STACKABLE -> stackableGoal
-                    = new StackableGoal((StackableCreateGoalRequest) createGoalBehaviorRequest, this);
-            default -> throw new IllegalStateException("Tipo inválido");
-        }
+        createGoalRequest.getBehaviors().forEach(this::setGoalBehaviors);
     }
 
     public void schedule(LocalDateTime scheduledTime) {
@@ -101,21 +85,84 @@ public class BaseGoal extends Auditable implements Goal {
         this.status = Status.SCHEDULED;
     }
 
-    @Override
-    public void accomplish() {
-        if(status != Status.IN_PROGRESS) return;
-        this.status = Status.COMPLETED;
-    }
-
     public void updateGoalInfo(PatchGoalRequest patchGoalRequest) {
         if (patchGoalRequest.getTitle() != null) this.title = patchGoalRequest.getTitle();
         if (patchGoalRequest.getDescription() != null) this.description = patchGoalRequest.getDescription();
         if (patchGoalRequest.getColor() != null) this.color = patchGoalRequest.getColor();
 
-        if (patchGoalRequest instanceof PatchRecurringGoalRequest recurringGoalRequest) {
-            if (recurringGoal == null) throw new APIException(ErrorCode.GOAL_NOT_RECURRING);
-            this.recurringGoal.applyPatch(recurringGoalRequest);
+        patchGoalRequest.getBehaviors().forEach(this::patchGoalBehaviors);
+    }
+
+    @Override
+    public void accomplish() {
+        if(status != Status.IN_PROGRESS)
+            throw new IllegalStateException("Não é possível mudar o status de um goal sem ser IN_PROGRESS");
+        this.status = Status.COMPLETED;
+    }
+
+    private void setGoalBehaviors(CreateGoalBehaviorRequest createGoalBehaviorRequest) {
+        switch (createGoalBehaviorRequest.getGoalType()) {
+            case RECURRING -> recurringGoal
+                    = new RecurringGoal((RecurringCreateGoalRequest) createGoalBehaviorRequest, this);
+            case SCHEDULED -> scheduledGoal
+                    = new ScheduledGoal((ScheduledCreateGoalRequest) createGoalBehaviorRequest, this);
+            case DEADLINE -> deadlineGoal
+                    = new DeadlineGoal((DeadlineCreateGoalRequest) createGoalBehaviorRequest, this);
+            case REPEATING -> repeatingGoal
+                    = new RepeatingGoal((RepeatingCreateGoalRequest) createGoalBehaviorRequest, this);
+            case STACKABLE -> stackableGoal
+                    = new StackableGoal((StackableCreateGoalRequest) createGoalBehaviorRequest, this);
+            default -> throw new IllegalStateException("Tipo inválido");
+        }
+    }
+
+    private void patchGoalBehaviors(PatchGoalBehaviorRequest patchGoalBehaviorRequest) {
+        switch (patchGoalBehaviorRequest.getGoalType()) {
+            case RECURRING -> createOrUpdateBehavior(
+                    recurringGoal,
+                    (RecurringPatchGoalRequest) patchGoalBehaviorRequest,
+                    RecurringGoal::fromPatch,
+                    RecurringGoal::applyPatch);
+            case SCHEDULED -> createOrUpdateBehavior(
+                    scheduledGoal,
+                    (ScheduledPatchGoalRequest) patchGoalBehaviorRequest,
+                    ScheduledGoal::fromPatch,
+                    ScheduledGoal::applyPatch
+            );
+            case DEADLINE -> createOrUpdateBehavior(
+                    deadlineGoal,
+                    (DeadlinePatchGoalRequest) patchGoalBehaviorRequest,
+                    DeadlineGoal::fromPatch,
+                    DeadlineGoal::applyPatch
+            );
+            case REPEATING -> createOrUpdateBehavior(
+                    repeatingGoal,
+                    (RepeatingPatchGoalRequest) patchGoalBehaviorRequest,
+                    RepeatingGoal::fromPatch,
+                    RepeatingGoal::applyPatch
+            );
+            case STACKABLE -> createOrUpdateBehavior(
+                    stackableGoal,
+                    (StackablePatchGoalRequest) patchGoalBehaviorRequest,
+                    StackableGoal::fromPatch,
+                    StackableGoal::applyPatch
+            );
+            default -> throw new IllegalStateException("Tipo inválido");
+        };
+    }
+
+    private <B, P extends PatchGoalBehaviorRequest> void createOrUpdateBehavior(
+            B behavior,
+            P patch,
+            Function<P, CreateGoalBehaviorRequest> create,
+            BiConsumer<B, P> update
+    ) {
+        if(behavior == null) {
+            CreateGoalBehaviorRequest goalBehavior = create.apply(patch);
+            setGoalBehaviors(goalBehavior);
+            return;
         }
 
+        update.accept(behavior, patch);
     }
 }

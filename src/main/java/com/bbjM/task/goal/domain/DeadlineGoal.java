@@ -1,6 +1,9 @@
 package com.bbjM.task.goal.domain;
 
+import com.bbjM.task.goal.domain.requests.create_goal_request.CreateGoalBehaviorRequest;
 import com.bbjM.task.goal.domain.requests.create_goal_request.DeadlineCreateGoalRequest;
+import com.bbjM.task.goal.domain.requests.create_goal_request.ScheduledCreateGoalRequest;
+import com.bbjM.task.goal.domain.requests.patch_goal_request.DeadlinePatchGoalRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,5 +28,17 @@ public class DeadlineGoal {
     public DeadlineGoal(DeadlineCreateGoalRequest createDeadlineGoalRequest, BaseGoal baseGoal) {
         this.goal = baseGoal;
         this.deadline = createDeadlineGoalRequest.getDeadline();
+    }
+
+    public DeadlineGoal(DeadlinePatchGoalRequest deadlinePatchGoalRequest) {
+        this.deadline = deadlinePatchGoalRequest.getDeadline();
+    }
+
+    public void applyPatch(DeadlinePatchGoalRequest patchGoalBehaviorRequest) {
+        this.deadline = patchGoalBehaviorRequest.getDeadline();
+    }
+
+    public static CreateGoalBehaviorRequest fromPatch(DeadlinePatchGoalRequest deadlinePatchGoalRequest) {
+        return new DeadlineCreateGoalRequest(new DeadlineGoal(deadlinePatchGoalRequest));
     }
 }
