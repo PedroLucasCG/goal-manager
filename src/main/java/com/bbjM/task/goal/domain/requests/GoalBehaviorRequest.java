@@ -1,6 +1,7 @@
-package com.bbjM.task.goal.domain.requests.create_goal_request;
+package com.bbjM.task.goal.domain.requests;
 
 import com.bbjM.task.goal.domain.GoalType;
+import com.bbjM.task.goal.domain.requests.create_goal_request.*;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
