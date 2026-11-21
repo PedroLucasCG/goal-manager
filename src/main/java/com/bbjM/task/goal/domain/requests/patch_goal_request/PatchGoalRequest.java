@@ -1,9 +1,11 @@
 package com.bbjM.task.goal.domain.requests.patch_goal_request;
 
 import com.bbjM.task.goal.domain.GoalType;
+import com.bbjM.task.goal.domain.requests.create_goal_request.CreateGoalBehaviorRequest;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import jakarta.validation.constraints.NotNull;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +29,13 @@ public class PatchGoalRequest {
     private String title;
     private String description;
     private String color;
-    @NotNull(message = "O tipo de objetivo é obrigatório!")
-    private List<GoalType> goalType;
+    @NotEmpty(message = "Tem que ter pelo menos um comportamento!")
+    private List<CreateGoalBehaviorRequest> behaviors;
+
+    @Schema(hidden = true)
+    public List<GoalType> getGoalTypes() {
+        return behaviors.stream()
+                .map(CreateGoalBehaviorRequest::getGoalType)
+                .toList();
+    }
 }

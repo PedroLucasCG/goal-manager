@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.domain.requests.create_goal_request.RepeatingGoalRequest;
+import com.bbjM.task.goal.domain.requests.create_goal_request.RepeatingCreateGoalRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,7 +23,7 @@ public class RepeatingGoal {
     @Column(nullable = false)
     private Long repetitionLimit;
 
-    public RepeatingGoal(RepeatingGoalRequest createRepeatingGoalRequest, BaseGoal baseGoal) {
+    public RepeatingGoal(RepeatingCreateGoalRequest createRepeatingGoalRequest, BaseGoal baseGoal) {
         this.goal = baseGoal;
         this.repetitionCounter = createRepeatingGoalRequest.getRepetitionCounter();
         this.repetitionLimit = createRepeatingGoalRequest.getRepetitionLimit();

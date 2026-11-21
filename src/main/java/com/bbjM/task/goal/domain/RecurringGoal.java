@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.domain.requests.create_goal_request.RecurringGoalRequest;
+import com.bbjM.task.goal.domain.requests.create_goal_request.RecurringCreateGoalRequest;
 import com.bbjM.task.goal.domain.requests.patch_goal_request.PatchRecurringGoalRequest;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,7 +27,7 @@ public class RecurringGoal {
     @Column(nullable = false)
     private LocalDateTime recurrenceMoment;
 
-    public RecurringGoal(RecurringGoalRequest createGoalRequest, BaseGoal baseGoal) {
+    public RecurringGoal(RecurringCreateGoalRequest createGoalRequest, BaseGoal baseGoal) {
         goal = baseGoal;
         interval = createGoalRequest.getDuration();
         recurrenceMoment = LocalDateTime.now().plus(interval);

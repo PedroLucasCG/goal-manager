@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.domain.requests.create_goal_request.DeadlineGoalRequest;
+import com.bbjM.task.goal.domain.requests.create_goal_request.DeadlineCreateGoalRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +22,7 @@ public class DeadlineGoal {
     @Column(nullable = false)
     private Instant deadline;
 
-    public DeadlineGoal(DeadlineGoalRequest createDeadlineGoalRequest, BaseGoal baseGoal) {
+    public DeadlineGoal(DeadlineCreateGoalRequest createDeadlineGoalRequest, BaseGoal baseGoal) {
         this.goal = baseGoal;
         this.deadline = createDeadlineGoalRequest.getDeadline();
     }

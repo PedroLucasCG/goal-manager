@@ -1,6 +1,6 @@
 package com.bbjM.task.goal.domain;
 
-import com.bbjM.task.goal.domain.requests.GoalBehaviorRequest;
+import com.bbjM.task.goal.domain.requests.create_goal_request.CreateGoalBehaviorRequest;
 import com.bbjM.task.goal.domain.requests.create_goal_request.*;
 import com.bbjM.task.goal.domain.requests.patch_goal_request.PatchGoalRequest;
 import com.bbjM.task.goal.domain.requests.patch_goal_request.PatchRecurringGoalRequest;
@@ -78,18 +78,18 @@ public class BaseGoal extends Auditable implements Goal {
         createGoalRequest.getBehaviors().forEach(this::getGoalBehaviors);
     }
 
-    private void getGoalBehaviors(GoalBehaviorRequest goalBehaviorRequest) {
-        switch (goalBehaviorRequest.getGoalType()) {
+    private void getGoalBehaviors(CreateGoalBehaviorRequest createGoalBehaviorRequest) {
+        switch (createGoalBehaviorRequest.getGoalType()) {
             case RECURRING -> recurringGoal
-                    = new RecurringGoal((RecurringGoalRequest) goalBehaviorRequest, this);
+                    = new RecurringGoal((RecurringCreateGoalRequest) createGoalBehaviorRequest, this);
             case SCHEDULED -> scheduledGoal
-                    = new ScheduledGoal((ScheduledGoalRequest) goalBehaviorRequest, this);
+                    = new ScheduledGoal((ScheduledCreateGoalRequest) createGoalBehaviorRequest, this);
             case DEADLINE -> deadlineGoal
-                    = new DeadlineGoal((DeadlineGoalRequest) goalBehaviorRequest, null);
+                    = new DeadlineGoal((DeadlineCreateGoalRequest) createGoalBehaviorRequest, null);
             case REPEATING -> repeatingGoal
-                    = new RepeatingGoal((RepeatingGoalRequest) goalBehaviorRequest, this);
+                    = new RepeatingGoal((RepeatingCreateGoalRequest) createGoalBehaviorRequest, this);
             case STACKABLE -> stackableGoal
-                    = new StackableGoal((StackableGoalRequest) goalBehaviorRequest, this);
+                    = new StackableGoal((StackableCreateGoalRequest) createGoalBehaviorRequest, this);
             default -> throw new IllegalStateException("Tipo inválido");
         }
     }

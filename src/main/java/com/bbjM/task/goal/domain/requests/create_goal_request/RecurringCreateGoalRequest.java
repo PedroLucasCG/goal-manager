@@ -1,23 +1,24 @@
 package com.bbjM.task.goal.domain.requests.create_goal_request;
 
 import com.bbjM.task.goal.domain.GoalType;
-import com.bbjM.task.goal.domain.requests.GoalBehaviorRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.time.Duration;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScheduledGoalRequest implements GoalBehaviorRequest {
-    private Instant momentToExecute;
+public class RecurringCreateGoalRequest implements CreateGoalBehaviorRequest {
+    @NotNull(message = "A duração é obrigatória para objetivos recorrentes")
+    private Duration duration;
 
     @Override
-    @Schema(example = "SCHEDULED")
+    @Schema(example = "RECURRING")
     public GoalType getGoalType() {
-        return GoalType.SCHEDULED;
+        return GoalType.RECURRING;
     }
 }

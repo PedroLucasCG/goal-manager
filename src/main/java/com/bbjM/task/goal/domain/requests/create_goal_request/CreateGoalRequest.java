@@ -1,7 +1,6 @@
 package com.bbjM.task.goal.domain.requests.create_goal_request;
 
 import com.bbjM.task.goal.domain.GoalType;
-import com.bbjM.task.goal.domain.requests.GoalBehaviorRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,12 +22,12 @@ public class CreateGoalRequest {
     private String color;
     private UUID parentGoal;
     @NotEmpty(message = "Tem que ter pelo menos um comportamento!")
-    private List<GoalBehaviorRequest> behaviors;
+    private List<CreateGoalBehaviorRequest> behaviors;
 
     @Schema(hidden = true)
     public List<GoalType> getGoalTypes() {
         return behaviors.stream()
-                .map(GoalBehaviorRequest::getGoalType)
+                .map(CreateGoalBehaviorRequest::getGoalType)
                 .toList();
     }
 }
