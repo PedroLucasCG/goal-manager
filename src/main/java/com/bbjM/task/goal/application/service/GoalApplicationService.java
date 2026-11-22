@@ -1,5 +1,6 @@
 package com.bbjM.task.goal.application.service;
 
+import com.bbjM.task.goal.domain.GoalHistory;
 import com.bbjM.task.goal.domain.requests.GoalFilterRequest;
 import com.bbjM.task.goal.domain.requests.patch_goal_request.PatchGoalRequest;
 import com.bbjM.task.goal.domain.responses.GoalTreeResponse;
@@ -12,6 +13,7 @@ import com.bbjM.task.handler.APIException;
 import com.bbjM.task.handler.ErrorCode;
 import com.bbjM.task.user.domain.Credential;
 import com.bbjM.task.user.infra.AuthRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -54,12 +56,14 @@ public class GoalApplicationService implements GoalService {
     }
 
     @Override
+    @Transactional
     public GoalResponse patchGoalInfo(PatchGoalRequest patchGoalRequest, String email, UUID goalId) {
         log.info("[start] GoalApplicationService - patchGoalInfo");
         BaseGoal goalToUpdate = getGoalById(goalId, email);
         goalToUpdate.updateGoalInfo(patchGoalRequest);
         BaseGoal updatedGoal = goalRepository.saveGoal(goalToUpdate);
         GoalResponse goalResponse = new GoalResponse(updatedGoal);
+        updateGoalHistory(goalToUpdate);
         log.debug("[finish] GoalApplicationService - patchGoalInfo");
         return goalResponse;
     }
@@ -69,6 +73,7 @@ public class GoalApplicationService implements GoalService {
         log.info("[start] GoalApplicationService - deleteGoalTree");
         BaseGoal goalToDelete = getGoalById(goalId, email);
         goalRepository.deleteGoal(goalToDelete);
+        updateGoalHistory(goalToDelete);
         log.debug("[finish] GoalApplicationService - deleteGoalTree");
         return goalToDelete;
     }
@@ -80,6 +85,7 @@ public class GoalApplicationService implements GoalService {
         Goal goalDecorated = Goal.decorateGoalByType(goalToAccomplish);
         goalDecorated.accomplish();
         BaseGoal accomplishedGoal = goalRepository.saveGoal(goalToAccomplish);
+        updateGoalHistory(goalToAccomplish);
         log.debug("[finish] GoalApplicationService - accomplishGoal");
         return accomplishedGoal;
     }
@@ -92,5 +98,11 @@ public class GoalApplicationService implements GoalService {
                 .orElseThrow(() -> new APIException(ErrorCode.GOAL_NOT_FOUND));
         log.debug("[finish] GoalApplicationService - getGoalById");
         return goal;
+    }
+
+    private void updateGoalHistory(BaseGoal goal) {
+        log.info("[start] GoalApplicationService - updateGoalHistory");
+        goalRepository.updateGoalHistory(goal);
+        log.debug("[finish] GoalApplicationService - updateGoalHistory");
     }
 }

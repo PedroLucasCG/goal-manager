@@ -15,4 +15,6 @@ public interface GoalRepository {
     List<BaseGoal> findRootGoalsByUserEmail(String email, GoalFilterRequest goalFilterRequest);
 
     void deleteGoal(BaseGoal goalToDelete);
+
+    GoalHistory updateGoalHistory(BaseGoal goal);
 }

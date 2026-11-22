@@ -5,6 +5,7 @@ import com.bbjM.task.goal.domain.GoalHistory;
 import com.bbjM.task.goal.domain.GoalRepository;
 import com.bbjM.task.goal.domain.requests.GoalFilterRequest;
 import com.bbjM.task.user.domain.Credential;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
@@ -44,14 +45,15 @@ public class GoalInfraRepository implements GoalRepository {
     }
 
     @Override
+    @Transactional
     public void deleteGoal(BaseGoal goalToDelete) {
         log.info("[start] GoalInfraRepository - deleteGoal");
-        int deletedLines = goalPostgresRepository.deleteGoalTree(goalToDelete.getId(), goalToDelete.getOwner().getId());
+        int deletedLines = goalPostgresRepository.deleteGoalById(goalToDelete.getId());
         log.info("[deleteGoal] deleted lines - {}", deletedLines);
         log.debug("[finish] GoalInfraRepository - deleteGoal");
     }
 
-    private GoalHistory makeGoalHistory(BaseGoal goal) {
+    public GoalHistory updateGoalHistory(BaseGoal goal) {
         log.info("[start] GoalInfraRepository - makeGoalHistory");
         GoalHistory goalHistory = new GoalHistory(goal);
         log.debug("[finish] GoalInfraRepository - makeGoalHistory");
