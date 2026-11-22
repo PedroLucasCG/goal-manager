@@ -62,12 +62,11 @@ public class GoalHistory extends Auditable {
                 case DEADLINE  -> goal.getDeadlineGoal().dumpState();
                 case REPEATING -> goal.getRepeatingGoal().dumpState();
                 case STACKABLE -> goal.getStackableGoal().dumpState();
-                case SIMPLE    -> new SimpleState();
+                case SIMPLE    -> null;
             };
 
-            goalBehaviorSnapshots.add(new GoalBehaviorSnapshot(this, state));
+            if (state != null)
+                goalBehaviorSnapshots.add(new GoalBehaviorSnapshot(this, state));
         }
     }
-
-    public record SimpleState() {}
 }

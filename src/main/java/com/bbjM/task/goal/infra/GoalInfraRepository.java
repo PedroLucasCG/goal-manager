@@ -19,6 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class GoalInfraRepository implements GoalRepository {
     private final GoalPostgresRepository goalPostgresRepository;
+    private final GoalHistoryPostgresRepository goalHistoryPostgresRepository;
 
     @Override
     public BaseGoal saveGoal(BaseGoal goal) {
@@ -56,6 +57,7 @@ public class GoalInfraRepository implements GoalRepository {
     public GoalHistory updateGoalHistory(BaseGoal goal) {
         log.info("[start] GoalInfraRepository - makeGoalHistory");
         GoalHistory goalHistory = new GoalHistory(goal);
+        goalHistoryPostgresRepository.save(goalHistory);
         log.debug("[finish] GoalInfraRepository - makeGoalHistory");
         return goalHistory;
     }
