@@ -41,4 +41,10 @@ public class ScheduledGoal {
     public static CreateGoalBehaviorRequest fromPatch(ScheduledPatchGoalRequest scheduledPatchGoalRequest) {
         return new ScheduledCreateGoalRequest(new ScheduledGoal(scheduledPatchGoalRequest));
     }
+
+    public record ScheduleState(Instant momentToExecute) {}
+
+    public ScheduleState dumpState() {
+        return new ScheduleState(this.momentToExecute);
+    }
 }

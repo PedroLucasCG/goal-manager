@@ -9,6 +9,7 @@ import lombok.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 @Entity
 @Table(name = "goal_recurrence")
@@ -51,5 +52,11 @@ public class RecurringGoal {
 
     public static CreateGoalBehaviorRequest fromPatch(RecurringPatchGoalRequest recurringPatchGoalRequest) {
         return new RecurringCreateGoalRequest(new RecurringGoal(recurringPatchGoalRequest));
+    }
+
+    public record DumpRecurring(Duration interval, LocalDateTime recurrenceMoment){}
+
+    public DumpRecurring dumpState() {
+        return new DumpRecurring(interval, recurrenceMoment);
     }
 }

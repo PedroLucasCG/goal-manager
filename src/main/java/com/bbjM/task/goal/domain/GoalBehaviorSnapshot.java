@@ -3,6 +3,7 @@ package com.bbjM.task.goal.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -22,8 +23,10 @@ public class GoalBehaviorSnapshot {
     private GoalHistory goalHistory;
 
     @Column(nullable = false)
-    private GoalType goalType;
-
-    @Column(nullable = false)
     private String state;
+
+    public <B> GoalBehaviorSnapshot(GoalHistory goalHistory, B stateDump) {
+        this.goalHistory = goalHistory;
+        this.state = stateDump.toString();
+    }
 }

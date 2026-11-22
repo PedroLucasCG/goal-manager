@@ -45,4 +45,10 @@ public class RepeatingGoal {
     public static CreateGoalBehaviorRequest fromPatch(RepeatingPatchGoalRequest repeatingPatchGoalRequest) {
         return new RepeatingCreateGoalRequest(new RepeatingGoal(repeatingPatchGoalRequest));
     }
+
+    public record RepeatingState(Long repetitionCounter, Long repetitionLimit) {}
+
+    public Object dumpState() {
+        return new RepeatingState(repetitionCounter, repetitionLimit);
+    }
 }

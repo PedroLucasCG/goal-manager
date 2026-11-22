@@ -41,4 +41,10 @@ public class DeadlineGoal {
     public static CreateGoalBehaviorRequest fromPatch(DeadlinePatchGoalRequest deadlinePatchGoalRequest) {
         return new DeadlineCreateGoalRequest(new DeadlineGoal(deadlinePatchGoalRequest));
     }
+
+    public record DeadlineState(Instant momentToExecute) {}
+
+    public DeadlineState dumpState() {
+        return new DeadlineState(this.deadline);
+    }
 }

@@ -45,4 +45,10 @@ public class StackableGoal {
     public static CreateGoalBehaviorRequest fromPatch(StackablePatchGoalRequest stackablePatchGoalRequest) {
         return new StackableCreateGoalRequest(new StackableGoal(stackablePatchGoalRequest));
     }
+
+    public record StackState(Long stackLimit, Long quantity) {}
+
+    public StackState dumpState() {
+        return new StackState(stackLimit, quantity);
+    }
 }

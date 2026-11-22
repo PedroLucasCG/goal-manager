@@ -1,8 +1,9 @@
 package com.bbjM.task.goal.infra;
 
+import com.bbjM.task.goal.domain.BaseGoal;
+import com.bbjM.task.goal.domain.GoalHistory;
 import com.bbjM.task.goal.domain.GoalRepository;
 import com.bbjM.task.goal.domain.requests.GoalFilterRequest;
-import com.bbjM.task.goal.domain.BaseGoal;
 import com.bbjM.task.user.domain.Credential;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -48,5 +49,12 @@ public class GoalInfraRepository implements GoalRepository {
         int deletedLines = goalPostgresRepository.deleteGoalTree(goalToDelete.getId(), goalToDelete.getOwner().getId());
         log.info("[deleteGoal] deleted lines - {}", deletedLines);
         log.debug("[finish] GoalInfraRepository - deleteGoal");
+    }
+
+    private GoalHistory makeGoalHistory(BaseGoal goal) {
+        log.info("[start] GoalInfraRepository - makeGoalHistory");
+        GoalHistory goalHistory = new GoalHistory(goal);
+        log.debug("[finish] GoalInfraRepository - makeGoalHistory");
+        return goalHistory;
     }
 }
