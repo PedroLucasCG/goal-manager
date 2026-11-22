@@ -7,7 +7,7 @@ import com.bbjM.task.goal.domain.requests.create_goal_request.CreateGoalRequest;
 import com.bbjM.task.goal.domain.responses.GoalResponse;
 import com.bbjM.task.goal.domain.BaseGoal;
 import com.bbjM.task.goal.domain.Goal;
-import com.bbjM.task.goal.infra.GoalRepository;
+import com.bbjM.task.goal.domain.GoalRepository;
 import com.bbjM.task.handler.APIException;
 import com.bbjM.task.handler.ErrorCode;
 import com.bbjM.task.user.domain.Credential;

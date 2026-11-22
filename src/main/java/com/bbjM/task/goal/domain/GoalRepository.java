@@ -1,7 +1,6 @@
-package com.bbjM.task.goal.infra;
+package com.bbjM.task.goal.domain;
 
 import com.bbjM.task.goal.domain.requests.GoalFilterRequest;
-import com.bbjM.task.goal.domain.BaseGoal;
 import com.bbjM.task.user.domain.Credential;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.bbjM.task.goal.infra;
 
+import com.bbjM.task.goal.domain.GoalRepository;
 import com.bbjM.task.goal.domain.requests.GoalFilterRequest;
 import com.bbjM.task.goal.domain.BaseGoal;
 import com.bbjM.task.user.domain.Credential;
