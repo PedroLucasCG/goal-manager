@@ -18,5 +18,5 @@ public interface GoalRepository {
 
     GoalHistory updateGoalHistory(BaseGoal goal);
 
-    int scanAndActivateDueGoals();
+    int scanAndActivateDueRecurringGoals();
 }

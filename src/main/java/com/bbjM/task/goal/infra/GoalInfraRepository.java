@@ -67,7 +67,7 @@ public class GoalInfraRepository implements GoalRepository {
 
     @Override
     @Transactional
-    public int scanAndActivateDueGoals() {
+    public int scanAndActivateDueRecurringGoals() {
         log.info("[start] GoalInfraRepository - scanAndActivateDueGoals");
         int goalsUpdated = goalPostgresRepository.updatedScheduledGoals(LocalDateTime.now());
         log.debug("[finish] GoalInfraRepository - scanAndActivateDueGoals");

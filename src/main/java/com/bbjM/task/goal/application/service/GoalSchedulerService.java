@@ -13,9 +13,9 @@ public class GoalSchedulerService {
     private final GoalRepository goalRepository;
 
     @Scheduled(cron = "0 0 0 * * *", zone = "America/Bahia")
-    public int activateScheduledGoals() {
+    public int startCycleForRecurringGoals() {
         log.info("[start] GoalSchedulerService - activateScheduledGoals");
-        int goalsActivated = goalRepository.scanAndActivateDueGoals();
+        int goalsActivated = goalRepository.scanAndActivateDueRecurringGoals();
         log.debug("[finish] GoalSchedulerService - activateScheduledGoals");
         return goalsActivated;
     }
