@@ -7,9 +7,9 @@ import com.bbjM.task.goal.domain.Goal;
 public class DeadlineGoalDecorator extends GoalDecorator {
     private final BaseGoal baseGoal;
 
-    public DeadlineGoalDecorator(Goal baseGoal) {
-        super(baseGoal);
-        this.baseGoal = (BaseGoal) baseGoal;
+    public DeadlineGoalDecorator(Goal goal, BaseGoal baseGoal) {
+        super(goal);
+        this.baseGoal = baseGoal;
     }
 
     @Override

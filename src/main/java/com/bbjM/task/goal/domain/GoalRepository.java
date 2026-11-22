@@ -17,4 +17,6 @@ public interface GoalRepository {
     void deleteGoal(BaseGoal goalToDelete);
 
     GoalHistory updateGoalHistory(BaseGoal goal);
+
+    int scanAndActivateDueGoals();
 }

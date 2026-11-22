@@ -9,9 +9,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -36,9 +34,15 @@ public class BaseGoal extends Auditable implements Goal {
     private Status status;
     @Column(nullable = false)
     private Long level;
+    @ElementCollection
+    @CollectionTable(
+            name = "goal_types",
+            joinColumns = @JoinColumn(name = "goal_id")
+    )
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Set<GoalType> goalTypes;
+    @Column(name = "goal_types", nullable = false)
+    @Builder.Default
+    private Set<GoalType> goalTypes = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner")
@@ -73,7 +77,7 @@ public class BaseGoal extends Auditable implements Goal {
         this.parentGoal = parentGoal;
         this.owner = owner;
         this.status = Status.IN_PROGRESS;
-        this.goalTypes = Set.copyOf(createGoalRequest.getGoalTypes());
+        this.goalTypes = new HashSet<>(createGoalRequest.getGoalTypes());
         this.level = 0L;
         if(parentGoal != null) this.level = parentGoal.getLevel() + 1L;
         createGoalRequest.getBehaviors().forEach(this::setGoalBehaviors);
@@ -97,8 +101,7 @@ public class BaseGoal extends Auditable implements Goal {
 
     @Override
     public void accomplish() {
-        if(status != Status.IN_PROGRESS)
-            throw new IllegalStateException("Não é possível mudar o status de um goal sem ser IN_PROGRESS");
+        if(!status.equals(Status.IN_PROGRESS)) return;
         this.status = Status.COMPLETED;
     }
 

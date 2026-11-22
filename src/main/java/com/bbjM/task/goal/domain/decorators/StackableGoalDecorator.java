@@ -7,9 +7,9 @@ import com.bbjM.task.goal.domain.StackableGoal;
 public class StackableGoalDecorator extends GoalDecorator {
     private final BaseGoal baseGoal;
 
-    public StackableGoalDecorator(Goal baseGoal) {
-        super(baseGoal);
-        this.baseGoal = (BaseGoal) baseGoal;
+    public StackableGoalDecorator(Goal goal, BaseGoal baseGoal) {
+        super(goal);
+        this.baseGoal = baseGoal;
     }
 
     @Override

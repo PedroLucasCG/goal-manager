@@ -7,9 +7,9 @@ import com.bbjM.task.goal.domain.RepeatingGoal;
 public class RepeatingGoalDecorator extends GoalDecorator {
     private final BaseGoal baseGoal;
 
-    public RepeatingGoalDecorator(Goal baseGoal) {
-        super(baseGoal);
-        this.baseGoal = (BaseGoal) baseGoal;
+    public RepeatingGoalDecorator(Goal goal, BaseGoal baseGoal) {
+        super(goal);
+        this.baseGoal = baseGoal;
     }
 
     @Override
