@@ -3,14 +3,12 @@ package com.bbjM.task.goal.infra;
 import com.bbjM.task.goal.domain.requests.GoalFilterRequest;
 import com.bbjM.task.goal.domain.BaseGoal;
 import com.bbjM.task.user.domain.Credential;
-import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -63,12 +61,25 @@ public interface GoalPostgresRepository extends JpaRepository<BaseGoal, UUID> {
     @Query("""
     update BaseGoal g
        set g.status = 'IN_PROGRESS'
-     where g.status = 'SCHEDULED'
-       and g.id in (
-           select r.goal.id
-             from RecurringGoal r
+    where g.status = 'SCHEDULED'
+        and g.id in (
+            select r.goal.id
+                from RecurringGoal r
             where r.recurrenceMoment <= :now
        )
     """)
-    int updatedScheduledGoals(@Param("now") LocalDateTime now);
+    int updateRecurringGoals(@Param("now") LocalDateTime now);
+
+    @Modifying
+    @Query("""
+    update BaseGoal g
+        set g.status = 'IN_PROGRESS'
+    where g.status = 'SCHEDULED'
+        and g.id in (
+            select s.goal.id
+                from ScheduledGoal s
+            where s.momentToExecute <= :now
+       )
+    """)
+    int updateScheduledGoals(LocalDateTime now);
 }

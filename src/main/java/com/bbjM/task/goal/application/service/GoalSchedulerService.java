@@ -14,8 +14,16 @@ public class GoalSchedulerService {
 
     @Scheduled(cron = "0 0 0 * * *", zone = "America/Bahia")
     public int startCycleForRecurringGoals() {
-        log.info("[start] GoalSchedulerService - activateScheduledGoals");
+        log.info("[start] GoalSchedulerService - startCycleForRecurringGoals");
         int goalsActivated = goalRepository.scanAndActivateDueRecurringGoals();
+        log.debug("[finish] GoalSchedulerService - startCycleForRecurringGoals");
+        return goalsActivated;
+    }
+
+    @Scheduled(cron = "0 0 0 * * *", zone = "America/Bahia")
+    public int activateScheduledGoals() {
+        log.info("[start] GoalSchedulerService - activateScheduledGoals");
+        int goalsActivated = goalRepository.scanAndActivateDueScheduledGoals();
         log.debug("[finish] GoalSchedulerService - activateScheduledGoals");
         return goalsActivated;
     }

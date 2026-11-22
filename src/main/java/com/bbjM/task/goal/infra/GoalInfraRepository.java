@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -69,8 +68,16 @@ public class GoalInfraRepository implements GoalRepository {
     @Transactional
     public int scanAndActivateDueRecurringGoals() {
         log.info("[start] GoalInfraRepository - scanAndActivateDueGoals");
-        int goalsUpdated = goalPostgresRepository.updatedScheduledGoals(LocalDateTime.now());
+        int goalsUpdated = goalPostgresRepository.updateRecurringGoals(LocalDateTime.now());
         log.debug("[finish] GoalInfraRepository - scanAndActivateDueGoals");
+        return goalsUpdated;
+    }
+
+    @Override
+    public int scanAndActivateDueScheduledGoals() {
+        log.info("[start] GoalInfraRepository - scanAndActivateDueScheduledGoals");
+        int goalsUpdated = goalPostgresRepository.updateScheduledGoals(LocalDateTime.now());
+        log.debug("[finish] GoalInfraRepository - scanAndActivateDueScheduledGoals");
         return goalsUpdated;
     }
 }
